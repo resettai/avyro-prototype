@@ -1,1719 +1,1007 @@
 <!DOCTYPE html>
-<!-- saved from url=(0055)file:///Users/leifmartinklakkken/Downloads/index_3.html -->
+<!-- saved from url=(0060)file:///Users/leifmartinklakkken/Downloads/avyro-mobile.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Avyro.ai — Interactive Prototype</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Avyro.ai</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
-/* ═══════════════════════════════════════
-   ROOT & THEME
-═══════════════════════════════════════ */
 :root {
   --nb:#00C8FF; --ec:#00F0C8; --lm:#FF3D8A; --cp:#A855F7; --al:#C8FF00; --wa:#FFB800;
   --bg:#07090F; --sf:#0E1420; --sf2:#131D2A;
   --brd:rgba(255,255,255,0.08); --brd2:rgba(255,255,255,0.14);
-  --ts:rgba(255,255,255,0.50); --td:rgba(255,255,255,0.24);
+  --ts:rgba(255,255,255,0.55); --td:rgba(255,255,255,0.28);
   --text:#ffffff; --pill:rgba(255,255,255,0.04);
-  --nav:rgba(7,9,15,0.97); --scr:#07090F;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
-  display:flex; align-items:center; justify-content:center; min-height:100vh;
-  overflow:hidden; }
 
-/* ═══════════════════════════════════════
-   PHONE SHELL
-═══════════════════════════════════════ */
-.phone-shell {
-  width:375px; height:812px;
-  background:var(--scr);
-  border-radius:44px;
-  border:1px solid rgba(255,255,255,0.12);
-  box-shadow: 0 0 0 8px #1a1a1a, 0 0 0 10px #2a2a2a, 0 40px 100px rgba(0,0,0,0.8);
-  position:relative; overflow:hidden;
-  transition:background .3s;
-}
-/* Notch */
-.phone-shell::before {
-  content:''; position:absolute; top:10px; left:50%; transform:translateX(-50%);
-  width:120px; height:28px; background:var(--scr); border-radius:14px;
-  z-index:1000; border:1px solid rgba(255,255,255,0.06); transition:background .3s;
-}
-/* Status bar */
-.status-bar {
-  position:absolute; top:0; left:0; right:0; height:44px;
-  display:flex; align-items:flex-end; justify-content:space-between;
-  padding:0 24px 6px; z-index:999; font-size:11px; font-weight:700; color:var(--td);
-}
-.status-bar.light { color:rgba(0,0,0,0.4); }
+html { scroll-behavior:smooth; }
 
-/* ═══════════════════════════════════════
-   SCREEN SYSTEM
-═══════════════════════════════════════ */
-.screen {
-  position:absolute; inset:0;
-  display:none; flex-direction:column;
-  overflow:hidden;
-  animation: screen-in .25s ease both;
+body {
+  background:var(--bg);
+  font-family:'Barlow',sans-serif;
+  color:var(--text);
+  overflow-x:hidden;
 }
-.screen.active { display:flex; }
-@keyframes screen-in {
-  from { opacity:0; transform:translateX(18px); }
-  to   { opacity:1; transform:translateX(0); }
-}
-@keyframes screen-fade {
-  from { opacity:0; }
-  to   { opacity:1; }
-}
-@keyframes screen-back {
-  from { opacity:0; transform:translateX(-18px); }
-  to   { opacity:1; transform:translateX(0); }
-}
-.screen.back-anim { animation: screen-back .25s ease both; }
 
-/* ═══════════════════════════════════════
-   BOTTOM NAV
-═══════════════════════════════════════ */
-.bnav {
-  position:absolute; bottom:0; left:0; right:0; height:72px;
-  background:var(--nav); border-top:1px solid var(--brd);
-  display:flex; align-items:center; justify-content:space-around;
-  padding:0 4px 16px; z-index:500;
-}
-.bni { display:flex; flex-direction:column; align-items:center; gap:3px;
-  cursor:pointer; padding:6px 10px; border-radius:10px; transition:all .15s; }
-.bni:active { background:rgba(255,255,255,.04); }
-.bni .ico { font-size:20px; }
-.bni .lbl { font-size:9px; font-weight:700; letter-spacing:.5px; text-transform:uppercase;
-  color:var(--td); }
-.bni.on .lbl { color:var(--nb); }
-.bni.on .ico { filter:drop-shadow(0 0 6px rgba(0,200,255,.5)); }
-
-/* ═══════════════════════════════════════
-   TYPOGRAPHY & SHARED
-═══════════════════════════════════════ */
 .bc { font-family:'Barlow Condensed',sans-serif; }
-.mono { font-family:'JetBrains Mono',monospace; }
 
-/* Avyro A icon */
-.a-icon { border-radius:14px; background:linear-gradient(135deg,var(--ec),var(--nb));
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 0 16px rgba(0,240,200,.2); flex-shrink:0; }
-.a-icon .a { font-family:'Barlow Condensed',sans-serif; font-weight:900; color:#07090F; letter-spacing:-1px; }
-
-/* Wordmark */
-.wordmark { font-family:'Barlow Condensed',sans-serif; font-weight:900; }
-.wordmark .dot { color:var(--nb); }
-.wordmark .ai  { color:var(--ec); }
-
-/* Buttons */
-.btn-primary {
-  width:100%; padding:15px; background:linear-gradient(135deg,var(--ec),var(--nb));
-  border:none; border-radius:14px; font-family:'Barlow Condensed',sans-serif;
-  font-size:15px; font-weight:900; letter-spacing:2px; color:#07090F; cursor:pointer;
-  transition:transform .1s, box-shadow .1s;
+/* ═══════════════════
+   SECTION DIVIDER
+═══════════════════ */
+.sec-div {
+  width:100%; padding:10px 20px;
+  background:rgba(0,200,255,0.06);
+  border-top:1px solid rgba(0,200,255,0.15);
+  border-bottom:1px solid rgba(0,200,255,0.15);
+  display:flex; align-items:center; gap:10px;
+  position:sticky; top:0; z-index:100;
+  backdrop-filter:blur(12px);
 }
-.btn-primary:active { transform:scale(.98); box-shadow:0 2px 12px rgba(0,240,200,.3); }
-.btn-ghost { font-size:11px; color:var(--td); text-align:center; padding:8px; cursor:pointer; }
-.btn-ghost:active { color:var(--ts); }
+.sec-div-num {
+  width:22px; height:22px; border-radius:50%;
+  background:linear-gradient(135deg,var(--ec),var(--nb));
+  display:flex; align-items:center; justify-content:center;
+  font-size:10px; font-weight:900; color:#07090F; flex-shrink:0;
+}
+.sec-div-name {
+  font-size:11px; font-weight:700; letter-spacing:2px;
+  text-transform:uppercase; color:var(--nb);
+}
 
-/* Cards */
-.card { background:var(--pill); border:1px solid var(--brd); border-radius:13px; padding:12px 14px; }
-.card-highlight { background:rgba(0,240,200,.05); border:1px solid rgba(0,240,200,.18); border-radius:13px; padding:12px 14px; }
+/* ═══════════════════
+   SCREEN SECTIONS
+═══════════════════ */
+.screen-section {
+  min-height:100dvh;
+  display:flex; flex-direction:column;
+  position:relative; overflow:hidden;
+}
 
-/* Tags */
-.tag { display:inline-block; padding:2px 9px; border-radius:20px; font-size:8px; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
+/* ═══════════════════
+   SHARED COMPONENTS
+═══════════════════ */
+.card {
+  background:var(--pill); border:1px solid var(--brd);
+  border-radius:14px; padding:14px 16px;
+}
+.card-ec {
+  background:rgba(0,240,200,.05); border:1px solid rgba(0,240,200,.18);
+  border-radius:14px; padding:14px 16px;
+}
+.btn-primary {
+  width:100%; padding:16px;
+  background:linear-gradient(135deg,var(--ec),var(--nb));
+  border:none; border-radius:14px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:16px; font-weight:900; letter-spacing:2px;
+  color:#07090F; cursor:pointer; transition:transform .1s;
+}
+.btn-primary:active { transform:scale(.98); }
+.tag {
+  display:inline-block; padding:3px 10px; border-radius:20px;
+  font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+}
 .t-ec { background:rgba(0,240,200,.1); border:1px solid rgba(0,240,200,.2); color:var(--ec); }
 .t-nb { background:rgba(0,200,255,.1); border:1px solid rgba(0,200,255,.2); color:var(--nb); }
 .t-lm { background:rgba(255,61,138,.1); border:1px solid rgba(255,61,138,.2); color:var(--lm); }
 .t-cp { background:rgba(168,85,247,.1); border:1px solid rgba(168,85,247,.2); color:var(--cp); }
 .t-wa { background:rgba(255,184,0,.1); border:1px solid rgba(255,184,0,.2); color:var(--wa); }
-
-/* Scroll area */
-.scroll { overflow-y:auto; flex:1; }
-.scroll::-webkit-scrollbar { display:none; }
-
-/* Section header */
-.sec-label { font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--td); margin-bottom:8px; }
-
-/* Toggle */
-.tog { width:38px; height:21px; border-radius:11px; position:relative; flex-shrink:0; cursor:pointer; }
-.tog-knob { position:absolute; top:3px; left:3px; width:15px; height:15px; border-radius:50%; transition:transform .2s; }
+.sec-label {
+  font-size:9px; font-weight:700; letter-spacing:2px;
+  text-transform:uppercase; color:var(--td); margin-bottom:10px;
+}
+.tog { width:40px; height:23px; border-radius:12px; position:relative; flex-shrink:0; cursor:pointer; }
+.tog-knob { position:absolute; top:3px; left:3px; width:17px; height:17px; border-radius:50%; transition:transform .2s; }
 .tog.on { background:var(--ec); }
 .tog.on .tog-knob { transform:translateX(17px); background:white; }
-.tog.off { background:var(--pill); border:1px solid var(--brd); }
+.tog.off { background:rgba(255,255,255,.1); }
 .tog.off .tog-knob { background:var(--td); }
 
 /* Chat bubbles */
-.cb-ai { background:rgba(255,255,255,.05); border:1px solid var(--brd); border-radius:4px 13px 13px 13px;
-  padding:10px 13px; font-size:12px; line-height:1.65; color:var(--ts); max-width:85%; }
-.cb-user { background:linear-gradient(135deg,rgba(0,200,255,.13),rgba(168,85,247,.09));
-  border:1px solid rgba(0,200,255,.18); border-radius:13px 4px 13px 13px;
-  padding:10px 13px; font-size:12px; line-height:1.65; max-width:85%; margin-left:auto; color:var(--text); }
-.ai-avatar { width:28px; height:28px; border-radius:50%;
+.cb-ai {
+  background:rgba(255,255,255,.05); border:1px solid var(--brd);
+  border-radius:4px 14px 14px 14px;
+  padding:12px 14px; font-size:14px; line-height:1.65;
+  color:var(--ts); max-width:88%;
+}
+.cb-user {
+  background:linear-gradient(135deg,rgba(0,200,255,.13),rgba(168,85,247,.09));
+  border:1px solid rgba(0,200,255,.18);
+  border-radius:14px 4px 14px 14px;
+  padding:12px 14px; font-size:14px; line-height:1.65;
+  max-width:88%; margin-left:auto; color:var(--text);
+}
+.ai-avatar {
+  width:32px; height:32px; border-radius:50%;
   background:linear-gradient(135deg,rgba(0,240,200,.2),rgba(0,200,255,.15));
-  border:1px solid rgba(0,240,200,.25); display:flex; align-items:center; justify-content:center;
-  font-size:13px; flex-shrink:0; }
+  border:1px solid rgba(0,240,200,.3);
+  display:flex; align-items:center; justify-content:center;
+  font-size:15px; flex-shrink:0;
+}
+.a-icon {
+  border-radius:14px; background:linear-gradient(135deg,var(--ec),var(--nb));
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 16px rgba(0,240,200,.2); flex-shrink:0;
+}
+.a-icon .a { font-family:'Barlow Condensed',sans-serif; font-weight:900; color:#07090F; }
 
-/* ═══════════════════════════════════════
+/* ═══════════════════
    ANIMATIONS
-═══════════════════════════════════════ */
+═══════════════════ */
 @keyframes ring-expand {
-  0%   { transform:translate(-50%,-50%) scale(0.8); opacity:0.6; }
-  100% { transform:translate(-50%,-50%) scale(1.9); opacity:0; }
+  0%   { transform:translate(-50%,-50%) scale(0.8); opacity:0.7; }
+  100% { transform:translate(-50%,-50%) scale(2.2); opacity:0; }
 }
-@keyframes bootglow { 0%{opacity:.5} 100%{opacity:1} }
-@keyframes prog-wave { 0%{width:5%} 80%{width:90%} 100%{width:100%} }
-@keyframes blink { 0%,100%{opacity:.25} 50%{opacity:1} }
-@keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.6)} }
-@keyframes streak-fire { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+@keyframes bootglow { 0%{opacity:.4} 100%{opacity:1} }
+@keyframes prog-fill { 0%{width:5%} 80%{width:90%} 100%{width:100%} }
+@keyframes blink { 0%,100%{opacity:.2} 50%{opacity:1} }
+@keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.5)} }
+@keyframes streak-fire { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
 @keyframes mic-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,61,138,.5)} 70%{box-shadow:0 0 0 10px rgba(255,61,138,0)} }
-@keyframes confetti-fall { 0%{transform:translateY(-10px) rotate(0);opacity:1} 100%{transform:translateY(60px) rotate(540deg);opacity:0} }
-@keyframes zz { 0%{opacity:0;transform:translateY(0) translateX(0)} 30%{opacity:.8} 100%{opacity:0;transform:translateY(-20px) translateX(8px)} }
-@keyframes timer-tick { 0%{transform:scale(1)} 50%{transform:scale(1.04)} 100%{transform:scale(1)} }
-@keyframes draw-ring {
-  from { stroke-dashoffset:534; }
-  to   { stroke-dashoffset:80; }
-}
-@keyframes fade-up { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-@keyframes unlock-pop { 0%{transform:scale(.7);opacity:0} 70%{transform:scale(1.06)} 100%{transform:scale(1);opacity:1} }
-@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+@keyframes confetti-fall { 0%{transform:translateY(-10px) rotate(0);opacity:1} 100%{transform:translateY(70px) rotate(540deg);opacity:0} }
+@keyframes zz { 0%{opacity:0;transform:translateY(0) translateX(0)} 30%{opacity:.8} 100%{opacity:0;transform:translateY(-20px) translateX(10px)} }
+@keyframes timer-tick { 0%{transform:scale(1)} 50%{transform:scale(1.05)} 100%{transform:scale(1)} }
+@keyframes typing { 0%,100%{opacity:.3} 50%{opacity:1} }
+@keyframes fade-in { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
 
-/* ═══════════════════════════════════════
-   OUTER UI (outside phone)
-═══════════════════════════════════════ */
-.outer { position:fixed; inset:0; background:linear-gradient(135deg,#0a0f1e 0%,#111827 100%);
-  display:flex; align-items:center; justify-content:center; }
-.outer::before { content:''; position:absolute; inset:0;
-  background:radial-gradient(ellipse 600px 400px at 30% 50%,rgba(0,240,200,.04),transparent),
-    radial-gradient(ellipse 500px 350px at 70% 60%,rgba(168,85,247,.03),transparent); }
-.phone-wrap { position:relative; z-index:1; }
+/* ═══════════════════
+   CHAT INPUT
+═══════════════════ */
+.chat-input-bar {
+  display:flex; gap:10px; align-items:center;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--brd2); border-radius:28px;
+  padding:10px 14px;
+}
+.chat-input-bar input {
+  flex:1; background:none; border:none; outline:none;
+  font-family:'Barlow',sans-serif; font-size:14px;
+  color:var(--text);
+}
+.chat-input-bar input::placeholder { color:var(--td); }
+.send-btn {
+  width:36px; height:36px; border-radius:50%; border:none; cursor:pointer;
+  background:linear-gradient(135deg,var(--ec),var(--nb));
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; flex-shrink:0; transition:transform .1s;
+}
+.send-btn:active { transform:scale(.92); }
+.send-btn:disabled { opacity:.4; }
 
-/* Demo nav bar */
-.demo-nav {
-  position:fixed; top:0; left:0; right:0; z-index:1000;
-  background:rgba(7,9,15,0.97); border-bottom:1px solid rgba(255,255,255,0.1);
-  backdrop-filter:blur(12px);
-  display:flex; align-items:center; gap:0; overflow-x:auto; padding:0 16px;
-  height:44px;
+/* Typing indicator */
+.typing-indicator {
+  display:flex; gap:4px; align-items:center; padding:4px 0;
 }
-.demo-nav::-webkit-scrollbar { display:none; }
-.demo-nav-label {
-  font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:900;
-  color:#00F0C8; letter-spacing:2px; text-transform:uppercase;
-  padding-right:16px; border-right:1px solid rgba(255,255,255,0.1);
-  margin-right:12px; white-space:nowrap; flex-shrink:0;
+.typing-dot {
+  width:6px; height:6px; border-radius:50%; background:var(--ec);
+  animation:pulse-dot .8s infinite;
 }
-.demo-btn {
-  padding:5px 12px; border-radius:20px; font-size:11px; font-weight:700;
-  color:rgba(255,255,255,0.4); cursor:pointer; white-space:nowrap;
-  flex-shrink:0; transition:all .15s; border:1px solid transparent;
-  font-family:'Barlow',sans-serif;
-}
-.demo-btn:hover { color:white; background:rgba(255,255,255,0.06); }
-.demo-btn.on { color:#00C8FF; background:rgba(0,200,255,0.1); border-color:rgba(0,200,255,0.25); }
-.demo-btn.group-start { margin-left:8px; border-left:1px solid rgba(255,255,255,0.08); padding-left:16px; }
+.typing-dot:nth-child(2) { animation-delay:.2s; }
+.typing-dot:nth-child(3) { animation-delay:.4s; }
 
-.outer { padding-top:44px; }
-
-/* ═══════════════════════════════════════
-   MOBILE STYLES
-═══════════════════════════════════════ */
-/* Floating menu button (mobile only) */
-.mob-fab {
-  display:none;
-  position:fixed; bottom:24px; right:20px; z-index:2000;
-  width:52px; height:52px; border-radius:50%;
-  background:linear-gradient(135deg,#00F0C8,#00C8FF);
-  box-shadow:0 4px 20px rgba(0,200,255,0.5);
-  align-items:center; justify-content:center;
-  font-size:22px; cursor:pointer; border:none;
-  transition:transform .15s;
-}
-.mob-fab:active { transform:scale(.93); }
-
-/* Mobile drawer */
-.mob-drawer {
-  display:none;
-  position:fixed; inset:0; z-index:1999;
-  background:rgba(0,0,0,0.7); backdrop-filter:blur(6px);
-}
-.mob-drawer-inner {
-  position:absolute; bottom:0; left:0; right:0;
-  background:#0E1420; border-radius:24px 24px 0 0;
-  border-top:1px solid rgba(255,255,255,0.1);
-  padding:16px 20px 40px;
-  max-height:80vh; overflow-y:auto;
-}
-.mob-drawer-inner::-webkit-scrollbar { display:none; }
-.mob-drawer-handle {
-  width:36px; height:4px; border-radius:2px;
-  background:rgba(255,255,255,0.2); margin:0 auto 20px;
-}
-.mob-drawer-title {
-  font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:900;
-  color:#00F0C8; letter-spacing:3px; text-transform:uppercase;
-  margin-bottom:16px;
-}
-.mob-group-label {
-  font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
-  color:rgba(255,255,255,0.25); margin:14px 0 8px;
-}
-.mob-screen-grid {
-  display:grid; grid-template-columns:1fr 1fr; gap:8px;
-}
-.mob-screen-btn {
-  padding:12px 14px; border-radius:12px;
-  background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
-  display:flex; align-items:center; gap:9px; cursor:pointer;
-  transition:all .15s;
-}
-.mob-screen-btn:active { background:rgba(0,200,255,0.08); border-color:rgba(0,200,255,0.2); }
-.mob-screen-btn.on { background:rgba(0,200,255,0.08); border-color:rgba(0,200,255,0.25); }
-.mob-screen-btn .ico { font-size:18px; }
-.mob-screen-btn .lbl { font-size:11px; font-weight:700; color:rgba(255,255,255,0.7); line-height:1.2; }
-.mob-screen-btn.on .lbl { color:#00C8FF; }
-
-/* Show/hide based on screen size */
-@media (max-width: 768px) {
-  .demo-nav { display:none !important; }
-  .outer { padding-top:0 !important; }
-  .mob-fab { display:flex !important; }
-  .phone-shell {
-    width:100vw !important;
-    height:100dvh !important;
-    border-radius:0 !important;
-    border:none !important;
-    box-shadow:none !important;
-  }
-  .phone-shell::before { display:none !important; }
-  .phone-wrap { width:100%; height:100%; }
-  .outer { align-items:flex-start !important; }
-  .screen-name { display:none !important; }
+/* ═══════════════════
+   SCROLL TO NEXT
+═══════════════════ */
+.scroll-hint {
+  text-align:center; padding:20px; color:var(--td);
+  font-size:12px; letter-spacing:1px;
+  animation:blink 2s infinite;
 }
 
-/* Screen name overlay */
-.screen-name {
-  position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
-  background:rgba(0,0,0,.6); backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.1); border-radius:20px;
-  padding:6px 16px; font-size:11px; color:rgba(255,255,255,.5);
-  font-family:'JetBrains Mono',monospace; z-index:100; pointer-events:none;
-  white-space:nowrap;
-}
 </style>
 </head>
 <body>
 
-<div class="outer">
-  <!-- Demo nav bar (desktop) -->
-  <div class="demo-nav" id="demoNav">
-    <div class="demo-nav-label">AVYRO.AI</div>
-    <div class="demo-btn" onclick="goTo(&#39;s0&#39;)" data-screen="s0">⏳ Loading</div>
-    <div class="demo-btn on" onclick="goTo(&#39;s1&#39;)" data-screen="s1">🚀 Splash</div>
-    <div class="demo-btn" onclick="goTo(&#39;s2&#39;)" data-screen="s2">💬 Onboarding</div>
-    <div class="demo-btn" onclick="goTo(&#39;s3&#39;)" data-screen="s3">📋 Program</div>
-    <div class="demo-btn group-start" onclick="goTo(&#39;s4&#39;)" data-screen="s4">🏠 Today</div>
-    <div class="demo-btn" onclick="goTo(&#39;s5&#39;)" data-screen="s5">💪 Workout</div>
-    <div class="demo-btn" onclick="goTo(&#39;s6&#39;)" data-screen="s6">⚡ AI Coach</div>
-    <div class="demo-btn" onclick="goTo(&#39;s7&#39;)" data-screen="s7">📊 Progress</div>
-    <div class="demo-btn group-start" onclick="goTo(&#39;s8&#39;)" data-screen="s8">👥 Social</div>
-    <div class="demo-btn" onclick="goTo(&#39;s9&#39;)" data-screen="s9">🔍 Discover</div>
-    <div class="demo-btn group-start" onclick="goTo(&#39;s10&#39;)" data-screen="s10">🔥 Streak</div>
-    <div class="demo-btn" onclick="goTo(&#39;s11&#39;)" data-screen="s11">🏅 Rewards</div>
-    <div class="demo-btn group-start" onclick="goTo(&#39;s12&#39;)" data-screen="s12">⚙️ Settings</div>
-    <div class="demo-btn" onclick="goTo(&#39;s13&#39;)" data-screen="s13">🔔 Notif.</div>
-    <div class="demo-btn group-start" onclick="goTo(&#39;s14&#39;)" data-screen="s14">😴 Burnout</div>
-    <div class="demo-btn" onclick="goTo(&#39;s15&#39;)" data-screen="s15">🤒 Sickness</div>
+<!-- ═══════════════════════════════════
+     SCREEN 1: LOADING
+═══════════════════════════════════ -->
+<div class="screen-section" id="s-loading" style="background:#060A14;justify-content:center;align-items:center;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 300px 250px at 50% 45%,rgba(0,200,255,.08),transparent),radial-gradient(ellipse 200px 200px at 25% 70%,rgba(168,85,247,.05),transparent);animation:bootglow 2.5s ease-in-out infinite alternate;"></div>
+
+  <!-- Rings -->
+  <div style="position:absolute;width:min(160px,42vw);height:min(160px,42vw);top:45%;left:50%;border-radius:50%;border:1px solid rgba(0,200,255,.2);animation:ring-expand 3s ease-out infinite;"></div>
+  <div style="position:absolute;width:min(260px,68vw);height:min(260px,68vw);top:45%;left:50%;border-radius:50%;border:1px solid rgba(168,85,247,.13);animation:ring-expand 3s ease-out infinite;animation-delay:1s;"></div>
+  <div style="position:absolute;width:min(360px,94vw);height:min(360px,94vw);top:45%;left:50%;border-radius:50%;border:1px solid rgba(0,240,200,.07);animation:ring-expand 3s ease-out infinite;animation-delay:2s;"></div>
+
+  <div style="position:relative;z-index:1;text-align:center;">
+    <div class="bc" style="font-size:clamp(48px,14vw,72px);font-weight:900;letter-spacing:4px;color:white;text-shadow:0 0 40px rgba(0,200,255,.4);">AVYRO<span style="color:var(--nb);text-shadow:0 0 28px rgba(0,200,255,.8);">.</span><span style="color:var(--ec);text-shadow:0 0 28px rgba(0,240,200,.8);">AI</span></div>
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:48px;">AI Performance Coach</div>
+    <div style="width:120px;height:2px;background:rgba(255,255,255,.07);border-radius:1px;overflow:hidden;margin:0 auto;">
+      <div style="height:100%;background:linear-gradient(90deg,var(--nb),var(--cp));border-radius:1px;box-shadow:0 0 8px rgba(0,200,255,.5);animation:prog-fill 3s ease-in-out forwards;"></div>
+    </div>
+    <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.2);margin-top:10px;animation:blink 1.5s infinite;">Waking up...</div>
   </div>
-  <!-- Screen name -->
-  <div class="screen-name" id="screenName">Splash</div>
+  <div class="scroll-hint" style="position:absolute;bottom:32px;">↓ scroll to explore</div>
+</div>
 
-  <div class="phone-wrap">
-    <div class="phone-shell" id="phone">
-      <!-- Status bar -->
-      <div class="status-bar" id="statusBar">
-        <span>9:41</span>
-        <span>▲▲▲ 100%</span>
+<!-- ═══════════════════════════════════
+     SCREEN 2: ONBOARDING CHAT
+═══════════════════════════════════ -->
+<div class="sec-div"><div class="sec-div-num">1</div><div class="sec-div-name">Onboarding · Tell Avyro</div></div>
+<div class="screen-section" style="background:var(--bg);">
+  <div style="padding:24px 20px 0;flex:1;display:flex;flex-direction:column;">
+
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+      <div class="a-icon" style="width:44px;height:44px;border-radius:14px;"><span class="a" style="font-size:22px;">A</span></div>
+      <div>
+        <div class="bc" style="font-size:28px;font-weight:900;line-height:1;">Tell Avyro.ai</div>
+        <div style="font-size:13px;color:var(--ts);">what you're training for</div>
       </div>
+    </div>
 
-      <!-- ═══════════════════════
-           SCREEN 0: LOADING
-      ═══════════════════════ -->
-      <div class="screen" id="s0" data-name="Loading" style="transition: opacity 0.8s; opacity: 0;">
-        <div style="position:absolute;inset:0;background:#070A13;">
-          <div style="position:absolute;inset:0;background:radial-gradient(ellipse 300px 240px at 50% 44%,rgba(0,200,255,.09),transparent),radial-gradient(ellipse 200px 200px at 30% 70%,rgba(168,85,247,.06),transparent);animation:bootglow 2s ease-in-out infinite alternate;"></div>
-          <!-- Rings -->
-          <div style="position:absolute;width:min(150px,40vw);height:min(150px,40vw);top:44%;left:50%;border-radius:50%;border:1px solid rgba(0,200,255,.18);animation:ring-expand 3s ease-out infinite;"></div>
-          <div style="position:absolute;width:min(240px,64vw);height:min(240px,64vw);top:44%;left:50%;border-radius:50%;border:1px solid rgba(168,85,247,.12);animation:ring-expand 3s ease-out infinite;animation-delay:1s;"></div>
-          <div style="position:absolute;width:min(330px,88vw);height:min(330px,88vw);top:44%;left:50%;border-radius:50%;border:1px solid rgba(0,240,200,.08);animation:ring-expand 3s ease-out infinite;animation-delay:2s;"></div>
-
-          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;">
-            <div class="bc" style="font-size:52px;font-weight:900;letter-spacing:4px;color:white;text-shadow:0 0 40px rgba(0,200,255,.4);">AVYRO<span style="color:#00C8FF;text-shadow:0 0 28px rgba(0,200,255,.8);">.</span><span style="color:#00F0C8;text-shadow:0 0 28px rgba(0,240,200,.8);">AI</span></div>
-            <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:48px;">AI Performance Coach</div>
-            <div style="width:100px;height:2px;background:rgba(255,255,255,.07);border-radius:1px;overflow:hidden;">
-              <div style="height:100%;background:linear-gradient(90deg,#00C8FF,#A855F7);border-radius:1px;box-shadow:0 0 8px rgba(0,200,255,.5);animation:prog-wave 3.2s ease-in-out forwards;"></div>
-            </div>
-            <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.2);margin-top:8px;animation:blink 1.5s infinite;">Waking up...</div>
-          </div>
-        </div>
+    <!-- Chat messages -->
+    <div id="onboardingChat" style="display:flex;flex-direction:column;gap:12px;flex:1;padding-bottom:16px;">
+      <div style="display:flex;gap:10px;align-items:flex-start;animation:fade-in .4s ease both;">
+        <div class="ai-avatar">⚡</div>
+        <div class="cb-ai">Look who showed up. 👋<br><br>Tell me what you're training for — one sentence is enough. I'll handle the rest.</div>
       </div>
-
-      <!-- ═══════════════════════
-           SCREEN 1: SPLASH
-      ═══════════════════════ -->
-      <div class="screen active" id="s1" data-name="Splash">
-        <div style="position:absolute;inset:0;background:var(--scr);"></div>
-        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 220px 180px at 50% 28%,rgba(0,240,200,.07),transparent),radial-gradient(ellipse 200px 160px at 20% 80%,rgba(0,200,255,.05),transparent);"></div>
-        <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:60px 28px 28px;gap:0;">
-          <!-- Logo -->
-          <div class="a-icon" style="width:64px;height:64px;border-radius:20px;margin-bottom:20px;">
-            <span class="a" style="font-size:30px;">A</span>
-          </div>
-          <!-- Slogan -->
-          <div style="text-align:center;margin-bottom:12px;">
-            <div class="bc" style="font-size:50px;font-weight:900;line-height:.9;color:var(--text);">Don't Think.</div>
-            <div class="bc" style="font-size:50px;font-weight:900;line-height:.9;background:linear-gradient(135deg,var(--ec),var(--nb));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Train.</div>
-          </div>
-          <div style="font-size:12px;color:var(--ts);text-align:center;line-height:1.65;max-width:220px;margin-bottom:28px;">AI coaching based on how your body actually feels — every single day.</div>
-
-          <!-- Health connects -->
-          <div style="width:100%;display:flex;flex-direction:column;gap:7px;margin-bottom:22px;">
-            <div class="sec-label">Connect your health data</div>
-            <div style="background:rgba(0,240,200,.05);border:1px solid rgba(0,240,200,.22);border-radius:12px;padding:11px 13px;display:flex;align-items:center;gap:10px;">
-              <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#FF3B30,#FF6B6B);display:flex;align-items:center;justify-content:center;font-size:16px;">❤️</div>
-              <div style="flex:1;"><div style="font-size:12px;font-weight:700;">Apple Health</div><div style="font-size:9px;color:var(--ec);">HRV · Sleep · Steps</div></div>
-              <div class="tog on"><div class="tog-knob"></div></div>
-            </div>
-            <div class="card" style="display:flex;align-items:center;gap:10px;">
-              <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#1A8CFF,#0055CC);display:flex;align-items:center;justify-content:center;font-size:16px;">⌚</div>
-              <div style="flex:1;"><div style="font-size:12px;font-weight:700;">Garmin</div><div style="font-size:9px;color:var(--td);">GPS · HRV · Load</div></div>
-              <div class="tog off"><div class="tog-knob"></div></div>
-            </div>
-            <div class="card" style="display:flex;align-items:center;gap:10px;">
-              <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#222,#111);display:flex;align-items:center;justify-content:center;font-size:16px;">💍</div>
-              <div style="flex:1;"><div style="font-size:12px;font-weight:700;">Oura / WHOOP</div><div style="font-size:9px;color:var(--td);">Sleep · Recovery</div></div>
-              <div class="tog off"><div class="tog-knob"></div></div>
-            </div>
-          </div>
-
-          <button class="btn-primary" onclick="goTo(&#39;s2&#39;)">LET'S GO →</button>
-          <div class="btn-ghost" onclick="goTo(&#39;s4&#39;)">Already have an account · Sign in</div>
-        </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
+        <div onclick="sendOnboarding(this)" style="padding:8px 14px;background:var(--pill);border:1px solid var(--brd);border-radius:20px;font-size:13px;color:var(--ts);cursor:pointer;">"I want to run a 5k"</div>
+        <div onclick="sendOnboarding(this)" style="padding:8px 14px;background:var(--pill);border:1px solid var(--brd);border-radius:20px;font-size:13px;color:var(--ts);cursor:pointer;">"Lift 3x a week, get bigger"</div>
+        <div onclick="sendOnboarding(this)" style="padding:8px 14px;background:var(--pill);border:1px solid var(--brd);border-radius:20px;font-size:13px;color:var(--ts);cursor:pointer;">"Desk job, need to move more"</div>
       </div>
-
-      <!-- ═══════════════════════
-           SCREEN 2: ONBOARDING CHAT
-      ═══════════════════════ -->
-      <div class="screen" id="s2" data-name="Tell Avyro">
-        <div style="background:var(--scr);padding:52px 20px 0;display:flex;flex-direction:column;height:100%;">
-          <div style="margin-bottom:14px;flex-shrink:0;">
-            <div class="bc" style="font-size:28px;font-weight:900;line-height:1;">What are you<br>training for?</div>
-            <div style="font-size:12px;color:var(--ts);margin-top:5px;">Say it however you want. One sentence is enough.</div>
-          </div>
-
-          <div style="display:flex;flex-direction:column;gap:10px;flex:1;">
-            <!-- AI opens -->
-            <div style="display:flex;gap:8px;align-items:flex-start;">
-              <div class="ai-avatar">⚡</div>
-              <div class="cb-ai">Look who showed up. 👋<br>Tell me what you're after — I'll handle the rest.</div>
-            </div>
-
-            <!-- Examples -->
-            <div class="card" style="padding:11px 13px;">
-              <div class="sec-label">Say something like...</div>
-              <div style="display:flex;flex-direction:column;gap:5px;">
-                <div onclick="goTo(&#39;s3&#39;)" style="font-size:11px;color:var(--ts);padding:6px 10px;background:var(--pill);border-radius:8px;border-left:2px solid var(--ec);cursor:pointer;">"I want to run a half marathon in June"</div>
-                <div onclick="goTo(&#39;s3&#39;)" style="font-size:11px;color:var(--ts);padding:6px 10px;background:var(--pill);border-radius:8px;border-left:2px solid var(--lm);cursor:pointer;">"I lift 3x a week and want to get bigger"</div>
-                <div onclick="goTo(&#39;s3&#39;)" style="font-size:11px;color:var(--ts);padding:6px 10px;background:var(--pill);border-radius:8px;border-left:2px solid var(--al);cursor:pointer;">"I play golf weekends, desk job all week"</div>
-              </div>
-            </div>
-
-            <!-- Simulated convo -->
-            <div style="margin-top:auto;display:flex;flex-direction:column;gap:9px;padding-bottom:12px;">
-              <div style="display:flex;justify-content:flex-end;">
-                <div class="cb-user">I lift weights 3x a week. Want to get stronger and maybe run a 5k this year.</div>
-              </div>
-              <div style="display:flex;gap:8px;align-items:flex-start;">
-                <div class="ai-avatar">⚡</div>
-                <div class="cb-ai">
-                  Strength-first, cardio baseline. Nice combo. 💪<br>Building your program now...
-                  <div style="display:flex;gap:4px;margin-top:7px;">
-                    <div style="width:5px;height:5px;border-radius:50%;background:var(--ec);animation:pulse-dot 1s infinite;"></div>
-                    <div style="width:5px;height:5px;border-radius:50%;background:var(--ec);animation:pulse-dot 1s infinite .25s;"></div>
-                    <div style="width:5px;height:5px;border-radius:50%;background:var(--ec);animation:pulse-dot 1s infinite .5s;"></div>
-                  </div>
-                </div>
-              </div>
-              <!-- Input bar -->
-              <div onclick="goTo(&#39;s3&#39;)" style="background:var(--pill);border:1px solid var(--brd2);border-radius:24px;padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;">
-                <div style="flex:1;font-size:12px;color:var(--td);">Type or speak...</div>
-                <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--lm),var(--cp));display:flex;align-items:center;justify-content:center;font-size:15px;animation:mic-pulse 2s infinite;box-shadow:0 0 10px rgba(255,61,138,.3);">🎤</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════
-           SCREEN 3: PROGRAM READY
-      ═══════════════════════ -->
-      <div class="screen" id="s3" data-name="Program Ready">
-        <div style="background:var(--scr);padding:52px 20px 0;display:flex;flex-direction:column;height:100%;">
-          <div style="background:linear-gradient(135deg,rgba(0,240,200,.07),rgba(0,200,255,.04));border:1px solid rgba(0,240,200,.2);border-radius:14px;padding:14px;flex-shrink:0;position:relative;overflow:hidden;margin-bottom:12px;">
-            <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ec),var(--nb));"></div>
-            <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;">
-              <div style="width:7px;height:7px;border-radius:50%;background:var(--ec);box-shadow:0 0 6px rgba(0,240,200,.8);"></div>
-              <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ec);">Program ready</div>
-            </div>
-            <div class="bc" style="font-size:22px;font-weight:900;color:var(--text);line-height:1;">Strength + Cardio Base</div>
-            <div style="font-size:11px;color:var(--ts);margin-top:3px;">Built from what you said · Adapts daily to your readiness</div>
-          </div>
-
-          <!-- Week -->
-          <div style="margin-bottom:12px;flex-shrink:0;">
-            <div class="sec-label">Your week</div>
-            <div style="display:flex;gap:4px;">
-              <div style="flex:1;border-radius:9px;padding:7px 4px;text-align:center;font-size:8px;font-weight:700;background:rgba(255,255,255,.03);border:1px dashed var(--brd);color:var(--td);">MON<br>Rest</div>
-              <div style="flex:1;border-radius:9px;padding:7px 4px;text-align:center;font-size:8px;font-weight:700;background:rgba(0,240,200,.1);border:1px solid rgba(0,240,200,.25);color:var(--ec);">TUE<br>Upper</div>
-              <div style="flex:1;border-radius:9px;padding:7px 4px;text-align:center;font-size:8px;font-weight:700;background:rgba(255,255,255,.03);border:1px dashed var(--brd);color:var(--td);">WED<br>Rest</div>
-              <div style="flex:1;border-radius:9px;padding:7px 4px;text-align:center;font-size:8px;font-weight:700;background:rgba(0,240,200,.1);border:1px solid rgba(0,240,200,.25);color:var(--ec);">THU<br>Lower</div>
-              <div style="flex:1;border-radius:9px;padding:7px 4px;text-align:center;font-size:8px;font-weight:700;background:rgba(255,255,255,.03);border:1px dashed var(--brd);color:var(--td);">FRI<br>Rest</div>
-              <div style="flex:1;border-radius:9px;padding:7px 4px;text-align:center;font-size:8px;font-weight:700;background:rgba(0,240,200,.1);border:1px solid rgba(0,240,200,.25);color:var(--ec);">SAT<br>Full</div>
-              <div style="flex:1;border-radius:9px;padding:7px 4px;text-align:center;font-size:8px;font-weight:700;background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.2);color:var(--nb);">SUN<br>Run</div>
-            </div>
-          </div>
-
-          <!-- Today's session -->
-          <div class="card" style="margin-bottom:10px;flex-shrink:0;">
-            <div class="sec-label">Today · Upper Body</div>
-            <div style="display:flex;flex-direction:column;gap:6px;">
-              <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;">Bench Press</span><span style="font-size:11px;color:var(--td);">4 × 6–8</span></div>
-              <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;">Barbell Row</span><span style="font-size:11px;color:var(--td);">4 × 6–8</span></div>
-              <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;">Overhead Press</span><span style="font-size:11px;color:var(--td);">3 × 8–10</span></div>
-              <div style="font-size:10px;color:var(--td);font-style:italic;">+ 5 more · ~60 min</div>
-            </div>
-          </div>
-
-          <!-- AI note -->
-          <div style="display:flex;gap:8px;align-items:flex-start;flex-shrink:0;margin-bottom:14px;">
-            <div class="ai-avatar">⚡</div>
-            <div class="cb-ai" style="font-size:11px;">"Sundays I've added a short run. Builds your 5k base without touching strength days. Data says this was a good idea. 😄"</div>
-          </div>
-
-          <!-- Settings note -->
-          <div class="card" style="display:flex;align-items:center;gap:9px;margin-bottom:16px;flex-shrink:0;">
-            <span style="font-size:15px;">⚙️</span>
-            <div style="font-size:11px;color:var(--td);line-height:1.5;">Want changes? Days, exercises, intensity — <strong style="color:var(--ts);">Settings → Program</strong> anytime.</div>
-          </div>
-
-          <button class="btn-primary" onclick="goTo(&#39;s4&#39;)">START TRAINING →</button>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════
-           SCREEN 4: HOME / TODAY
-      ═══════════════════════ -->
-      <div class="screen" id="s4" data-name="Today">
-        <div style="background:var(--scr);display:flex;flex-direction:column;height:100%;">
-          <div style="padding:52px 20px 0;flex:1;" class="scroll">
-
-            <!-- Header -->
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
-              <div>
-                <div class="bc" style="font-size:24px;font-weight:900;line-height:1;">Good morning, Lars 👋</div>
-                <div style="font-size:12px;color:var(--ts);margin-top:2px;">Tuesday · 14 January</div>
-              </div>
-              <div onclick="goTo(&#39;s13&#39;)" style="position:relative;cursor:pointer;">
-                <div class="a-icon" style="width:38px;height:38px;border-radius:11px;"><span class="a" style="font-size:18px;">A</span></div>
-                <div style="position:absolute;top:-3px;right:-3px;width:10px;height:10px;border-radius:50%;background:var(--lm);border:2px solid var(--scr);"></div>
-              </div>
-            </div>
-
-            <!-- Readiness ring -->
-            <div style="background:linear-gradient(135deg,rgba(0,240,200,.06),rgba(0,200,255,.04));border:1px solid rgba(0,240,200,.15);border-radius:16px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden;">
-              <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ec),var(--nb));"></div>
-              <div style="display:flex;align-items:center;gap:16px;">
-                <div style="position:relative;">
-                  <svg width="80" height="80">
-                    <circle cx="40" cy="40" r="33" fill="none" stroke="rgba(0,240,200,.08)" stroke-width="7"></circle>
-                    <circle cx="40" cy="40" r="33" fill="none" stroke="url(#rg)" stroke-width="7" stroke-linecap="round" stroke-dasharray="207" stroke-dashoffset="40" transform="rotate(-90 40 40)"></circle>
-                    <text x="40" y="44" text-anchor="middle" fill="white" font-family="Barlow Condensed" font-weight="900" font-size="22">87</text>
-                    <defs>
-                      <lineargradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#00F0C8"></stop>
-                        <stop offset="100%" stop-color="#00C8FF"></stop>
-                      </lineargradient>
-                    </defs>
-                  </svg>
-                </div>
-                <div>
-                  <div style="font-size:9px;color:var(--td);letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;">Readiness today</div>
-                  <div class="bc" style="font-size:26px;font-weight:900;color:var(--ec);line-height:1;">Outstanding.</div>
-                  <div style="font-size:11px;color:var(--ts);margin-top:3px;line-height:1.5;">HRV 68ms · Slept 7.4h<br>Your body is ready to perform.</div>
-                </div>
-              </div>
-              <div style="display:flex;gap:8px;margin-top:12px;">
-                <div style="flex:1;background:rgba(0,0,0,.2);border-radius:8px;padding:7px;text-align:center;">
-                  <div class="bc" style="font-size:16px;font-weight:900;color:var(--ec);">68ms</div>
-                  <div style="font-size:8px;color:var(--td);">HRV</div>
-                </div>
-                <div style="flex:1;background:rgba(0,0,0,.2);border-radius:8px;padding:7px;text-align:center;">
-                  <div class="bc" style="font-size:16px;font-weight:900;color:var(--nb);">7.4h</div>
-                  <div style="font-size:8px;color:var(--td);">Sleep</div>
-                </div>
-                <div style="flex:1;background:rgba(0,0,0,.2);border-radius:8px;padding:7px;text-align:center;">
-                  <div class="bc" style="font-size:16px;font-weight:900;color:var(--cp);">52bpm</div>
-                  <div style="font-size:8px;color:var(--td);">RHR</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- AI Coach message -->
-            <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:14px;">
-              <div class="ai-avatar">⚡</div>
-              <div class="cb-ai">Readiness 87. Today's your day to go hard. Upper body's waiting. 💪</div>
-            </div>
-
-            <!-- Today's workout -->
-            <div onclick="goTo(&#39;s5&#39;)" style="background:linear-gradient(135deg,rgba(255,61,138,.08),rgba(168,85,247,.05));border:1px solid rgba(255,61,138,.2);border-radius:14px;padding:14px;margin-bottom:12px;cursor:pointer;position:relative;overflow:hidden;">
-              <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--lm),var(--cp));"></div>
-              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                <div>
-                  <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--lm);margin-bottom:3px;">Today's session</div>
-                  <div class="bc" style="font-size:20px;font-weight:900;line-height:1;">Upper Body Hypertrophy</div>
-                </div>
-                <div style="font-size:24px;">→</div>
-              </div>
-              <div style="display:flex;gap:6px;">
-                <span class="tag t-lm">60 min</span>
-                <span class="tag t-cp">8 exercises</span>
-                <span class="tag t-nb">High intensity</span>
-              </div>
-            </div>
-
-            <!-- Streak mini -->
-            <div onclick="goTo(&#39;s10&#39;)" style="background:rgba(255,61,138,.06);border:1px solid rgba(255,61,138,.15);border-radius:13px;padding:13px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;margin-bottom:12px;">
-              <div style="font-size:30px;animation:streak-fire 2s infinite;">🔥</div>
-              <div>
-                <div class="bc" style="font-size:20px;font-weight:900;color:var(--text);">18-day streak</div>
-                <div style="font-size:10px;color:var(--td);">12 days to gold milestone 🏅</div>
-              </div>
-              <div style="margin-left:auto;font-size:18px;color:var(--td);">›</div>
-            </div>
-
-            <!-- Quick links -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:80px;">
-              <div onclick="goTo(&#39;s6&#39;)" class="card" style="cursor:pointer;display:flex;align-items:center;gap:8px;">
-                <span style="font-size:18px;">⚡</span>
-                <div><div style="font-size:11px;font-weight:700;">AI Coach</div><div style="font-size:9px;color:var(--td);">Ask anything</div></div>
-              </div>
-              <div onclick="goTo(&#39;s7&#39;)" class="card" style="cursor:pointer;display:flex;align-items:center;gap:8px;">
-                <span style="font-size:18px;">📊</span>
-                <div><div style="font-size:11px;font-weight:700;">Progress</div><div style="font-size:9px;color:var(--td);">Stats &amp; PRs</div></div>
-              </div>
-              <div onclick="goTo(&#39;s8&#39;)" class="card" style="cursor:pointer;display:flex;align-items:center;gap:8px;">
-                <span style="font-size:18px;">👥</span>
-                <div><div style="font-size:11px;font-weight:700;">Social</div><div style="font-size:9px;color:var(--td);">Group feed</div></div>
-              </div>
-              <div onclick="goTo(&#39;s14&#39;)" class="card" style="cursor:pointer;display:flex;align-items:center;gap:8px;border-color:rgba(168,85,247,.2);background:rgba(168,85,247,.04);">
-                <span style="font-size:18px;">😴</span>
-                <div><div style="font-size:11px;font-weight:700;color:var(--cp);">Burnout mode</div><div style="font-size:9px;color:var(--td);">See demo</div></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Bottom nav -->
-          <div class="bnav">
-            <div class="bni on" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════
-           SCREEN 5: WORKOUT SESSION
-      ═══════════════════════ -->
-      <div class="screen" id="s5" data-name="Workout">
-        <div style="background:#050810;display:flex;flex-direction:column;height:100%;">
-          <div style="padding:52px 20px 0;flex:1;display:flex;flex-direction:column;">
-
-            <!-- Back + title -->
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-shrink:0;">
-              <div onclick="goTo(&#39;s4&#39;)" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
-              <div>
-                <div class="bc" style="font-size:18px;font-weight:900;">Upper Body Hypertrophy</div>
-                <div style="font-size:10px;color:var(--td);">Exercise 2 of 8 · 34 min elapsed</div>
-              </div>
-              <div onclick="goTo(&#39;s6&#39;)" style="margin-left:auto;cursor:pointer;" title="Ask coach">
-                <div class="ai-avatar" style="width:32px;height:32px;">⚡</div>
-              </div>
-            </div>
-
-            <!-- Progress bar -->
-            <div style="height:3px;background:rgba(255,255,255,.07);border-radius:2px;margin-bottom:18px;flex-shrink:0;overflow:hidden;">
-              <div style="width:25%;height:100%;background:linear-gradient(90deg,var(--ec),var(--nb));border-radius:2px;"></div>
-            </div>
-
-            <!-- Current exercise BIG -->
-            <div style="background:linear-gradient(135deg,rgba(255,61,138,.08),rgba(168,85,247,.06));border:1px solid rgba(255,61,138,.18);border-radius:16px;padding:20px;margin-bottom:14px;flex-shrink:0;position:relative;overflow:hidden;">
-              <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--lm),var(--cp));"></div>
-              <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--lm);margin-bottom:4px;">Now</div>
-              <div class="bc" style="font-size:30px;font-weight:900;line-height:1;margin-bottom:6px;">Bench Press</div>
-              <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px;">
-                <span class="tag t-lm">Set 2 of 4</span>
-                <span class="tag t-cp">Target: 6–8 reps</span>
-              </div>
-
-              <!-- Weight & reps -->
-              <div style="display:flex;gap:10px;">
-                <div style="flex:1;background:rgba(0,0,0,.3);border-radius:10px;padding:12px;text-align:center;">
-                  <div style="font-size:9px;color:var(--td);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;">Weight</div>
-                  <div class="bc" style="font-size:32px;font-weight:900;color:var(--text);">80<span style="font-size:14px;color:var(--td);">kg</span></div>
-                </div>
-                <div style="flex:1;background:rgba(0,0,0,.3);border-radius:10px;padding:12px;text-align:center;">
-                  <div style="font-size:9px;color:var(--td);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;">Last set</div>
-                  <div class="bc" style="font-size:32px;font-weight:900;color:var(--ec);">8<span style="font-size:14px;color:var(--td);">reps</span></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Set logger -->
-            <div class="card" style="margin-bottom:12px;flex-shrink:0;">
-              <div class="sec-label">Log this set</div>
-              <div style="display:flex;gap:8px;align-items:center;">
-                <div style="flex:1;background:rgba(0,0,0,.2);border-radius:10px;padding:12px;text-align:center;cursor:pointer;">
-                  <div style="font-size:9px;color:var(--td);margin-bottom:2px;">Reps</div>
-                  <div class="bc" style="font-size:24px;font-weight:900;color:var(--text);">7</div>
-                </div>
-                <div style="font-size:20px;color:var(--td);">×</div>
-                <div style="flex:1;background:rgba(0,0,0,.2);border-radius:10px;padding:12px;text-align:center;cursor:pointer;">
-                  <div style="font-size:9px;color:var(--td);margin-bottom:2px;">kg</div>
-                  <div class="bc" style="font-size:24px;font-weight:900;color:var(--text);">80</div>
-                </div>
-                <button onclick="goTo(&#39;s5&#39;)" style="flex:1;padding:12px;background:linear-gradient(135deg,var(--ec),var(--nb));border:none;border-radius:10px;font-family:&#39;Barlow Condensed&#39;,sans-serif;font-weight:900;font-size:14px;color:#07090F;cursor:pointer;letter-spacing:1px;">LOG ✓</button>
-              </div>
-            </div>
-
-            <!-- Rest timer -->
-            <div style="background:rgba(0,200,255,.05);border:1px solid rgba(0,200,255,.15);border-radius:13px;padding:13px 14px;display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-shrink:0;">
-              <div style="text-align:center;">
-                <div class="bc" style="font-size:28px;font-weight:900;color:var(--nb);animation:timer-tick 1s infinite;">1:45</div>
-                <div style="font-size:9px;color:var(--td);">Rest timer</div>
-              </div>
-              <div style="flex:1;height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;">
-                <div style="width:58%;height:100%;background:linear-gradient(90deg,var(--nb),var(--ec));border-radius:2px;"></div>
-              </div>
-              <div style="font-size:10px;color:var(--td);">3:00</div>
-            </div>
-
-            <!-- Next exercise -->
-            <div class="card" style="display:flex;align-items:center;gap:10px;flex-shrink:0;margin-bottom:80px;">
-              <span style="font-size:9px;color:var(--td);text-transform:uppercase;letter-spacing:1px;">Next →</span>
-              <div style="flex:1;font-size:12px;font-weight:700;">Barbell Row</div>
-              <span style="font-size:11px;color:var(--td);">4 × 6–8</span>
-            </div>
-          </div>
-
-          <!-- Bottom nav -->
-          <div class="bnav">
-            <div class="bni on" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════
-           SCREEN 6: AI COACH CHAT
-      ═══════════════════════ -->
-      <div class="screen" id="s6" data-name="AI Coach">
-        <div style="background:var(--scr);display:flex;flex-direction:column;height:100%;">
-          <div style="padding:52px 20px 0;flex-shrink:0;">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-              <div onclick="goTo(&#39;s4&#39;)" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
-              <div class="ai-avatar" style="width:36px;height:36px;font-size:16px;">⚡</div>
-              <div>
-                <div class="bc" style="font-size:18px;font-weight:900;">Avyro.ai Coach</div>
-                <div style="display:flex;align-items:center;gap:5px;"><div style="width:6px;height:6px;border-radius:50%;background:var(--ec);box-shadow:0 0 5px rgba(0,240,200,.7);"></div><div style="font-size:10px;color:var(--ec);">Online</div></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="scroll" style="padding:0 20px;flex:1;display:flex;flex-direction:column;gap:10px;padding-bottom:12px;">
-            <div style="display:flex;gap:8px;align-items:flex-start;">
-              <div class="ai-avatar">⚡</div>
-              <div class="cb-ai">Nice timing. Let's move. 💪<br>What's on your mind?</div>
-            </div>
-            <div style="display:flex;justify-content:flex-end;">
-              <div class="cb-user">My shoulder feels a bit tight today. Should I still do bench?</div>
-            </div>
-            <div style="display:flex;gap:8px;align-items:flex-start;">
-              <div class="ai-avatar">⚡</div>
-              <div class="cb-ai">Smart to flag that. Let's swap bench for dumbbell press today — less shoulder stress, same chest work.<br><br>I'll also cut back on the OHP volume. Keep it to 2 sets instead of 3.<br><br>Good call telling me. 👍</div>
-            </div>
-            <div style="display:flex;justify-content:flex-end;">
-              <div class="cb-user">Cool. Also when should I start thinking about a deload?</div>
-            </div>
-            <div style="display:flex;gap:8px;align-items:flex-start;">
-              <div class="ai-avatar">⚡</div>
-              <div class="cb-ai">You're on week 4 of progressive loading. I'll trigger a deload next week automatically — lighter weights, same movements, half the volume.<br><br>Your body will thank you. Statistically excellent decision. 😄</div>
-            </div>
-
-            <!-- Suggested prompts -->
-            <div style="margin-top:4px;">
-              <div class="sec-label">Quick asks</div>
-              <div style="display:flex;flex-wrap:wrap;gap:6px;">
-                <div onclick="goTo(&#39;s6&#39;)" style="background:var(--pill);border:1px solid var(--brd);border-radius:20px;padding:6px 12px;font-size:11px;color:var(--ts);cursor:pointer;">Swap an exercise</div>
-                <div onclick="goTo(&#39;s6&#39;)" style="background:var(--pill);border:1px solid var(--brd);border-radius:20px;padding:6px 12px;font-size:11px;color:var(--ts);cursor:pointer;">I'm feeling tired</div>
-                <div onclick="goTo(&#39;s6&#39;)" style="background:var(--pill);border:1px solid var(--brd);border-radius:20px;padding:6px 12px;font-size:11px;color:var(--ts);cursor:pointer;">Make it shorter</div>
-                <div onclick="goTo(&#39;s14&#39;)" style="background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.2);border-radius:20px;padding:6px 12px;font-size:11px;color:var(--cp);cursor:pointer;">I'm burnt out</div>
-              </div>
-            </div>
-            <div style="padding-bottom:60px;"></div>
-          </div>
-
-          <!-- Input -->
-          <div style="padding:0 20px 24px;flex-shrink:0;">
-            <div style="background:var(--pill);border:1px solid var(--brd2);border-radius:24px;padding:10px 14px;display:flex;align-items:center;gap:10px;">
-              <div style="flex:1;font-size:12px;color:var(--td);">Ask Avyro.ai anything...</div>
-              <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--lm),var(--cp));display:flex;align-items:center;justify-content:center;font-size:15px;animation:mic-pulse 2.5s infinite;">🎤</div>
-            </div>
-          </div>
-          <div class="bnav">
-            <div class="bni on" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════
-           SCREEN 7: PROGRESS
-      ═══════════════════════ -->
-      <div class="screen" id="s7" data-name="Progress">
-        <div style="background:var(--scr);display:flex;flex-direction:column;height:100%;">
-          <div class="scroll" style="padding:52px 20px 80px;">
-            <div class="bc" style="font-size:26px;font-weight:900;margin-bottom:18px;">Your Progress</div>
-
-            <!-- Volume chart (CSS bars) -->
-            <div class="card" style="margin-bottom:12px;">
-              <div class="sec-label">Weekly volume · kg lifted</div>
-              <div style="display:flex;align-items:flex-end;gap:5px;height:70px;margin-bottom:6px;">
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;">
-                  <div style="flex:1;width:100%;background:rgba(0,240,200,.2);border-radius:3px 3px 0 0;height:45%;"></div>
-                  <div style="font-size:8px;color:var(--td);">W1</div>
-                </div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;">
-                  <div style="flex:1;width:100%;background:rgba(0,240,200,.3);border-radius:3px 3px 0 0;height:60%;"></div>
-                  <div style="font-size:8px;color:var(--td);">W2</div>
-                </div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;">
-                  <div style="flex:1;width:100%;background:rgba(0,240,200,.35);border-radius:3px 3px 0 0;height:72%;"></div>
-                  <div style="font-size:8px;color:var(--td);">W3</div>
-                </div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;">
-                  <div style="flex:1;width:100%;background:linear-gradient(0deg,var(--ec),rgba(0,240,200,.5));border-radius:3px 3px 0 0;height:85%;box-shadow:0 0 8px rgba(0,240,200,.3);"></div>
-                  <div style="font-size:8px;color:var(--ec);font-weight:700;">W4</div>
-                </div>
-              </div>
-              <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--ts);">
-                <span>↑ 23% vs last month</span>
-                <span style="color:var(--ec);font-weight:700;">12,400 kg this week</span>
-              </div>
-            </div>
-
-            <!-- PRs -->
-            <div class="card" style="margin-bottom:12px;">
-              <div class="sec-label">Personal records 🏆</div>
-              <div style="display:flex;flex-direction:column;gap:8px;">
-                <div style="display:flex;align-items:center;justify-content:space-between;">
-                  <div style="font-size:12px;">Bench Press</div>
-                  <div style="display:flex;align-items:center;gap:8px;">
-                    <div class="bc" style="font-size:18px;font-weight:900;color:var(--ec);">105 kg</div>
-                    <span class="tag t-ec">PR ↑</span>
-                  </div>
-                </div>
-                <div style="height:1px;background:var(--brd);"></div>
-                <div style="display:flex;align-items:center;justify-content:space-between;">
-                  <div style="font-size:12px;">Squat</div>
-                  <div class="bc" style="font-size:18px;font-weight:900;color:var(--text);">130 kg</div>
-                </div>
-                <div style="height:1px;background:var(--brd);"></div>
-                <div style="display:flex;align-items:center;justify-content:space-between;">
-                  <div style="font-size:12px;">Deadlift</div>
-                  <div class="bc" style="font-size:18px;font-weight:900;color:var(--text);">160 kg</div>
-                </div>
-                <div style="height:1px;background:var(--brd);"></div>
-                <div style="display:flex;align-items:center;justify-content:space-between;">
-                  <div style="font-size:12px;">5k Run</div>
-                  <div style="display:flex;align-items:center;gap:8px;">
-                    <div class="bc" style="font-size:18px;font-weight:900;color:var(--nb);">24:32</div>
-                    <span class="tag t-nb">PR ↑</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Sessions -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
-              <div class="card" style="text-align:center;">
-                <div class="bc" style="font-size:32px;font-weight:900;color:var(--nb);">47</div>
-                <div style="font-size:10px;color:var(--td);">Total sessions</div>
-              </div>
-              <div class="card" style="text-align:center;">
-                <div class="bc" style="font-size:32px;font-weight:900;color:var(--ec);">18</div>
-                <div style="font-size:10px;color:var(--td);">Day streak 🔥</div>
-              </div>
-            </div>
-
-            <!-- HRV trend -->
-            <div class="card">
-              <div class="sec-label">HRV trend · 7 days</div>
-              <div style="display:flex;align-items:center;gap:4px;height:40px;margin-bottom:4px;">
-                <div style="display:flex;align-items:flex-end;gap:3px;flex:1;height:100%;">
-                  <div style="width:100%;height:55%;background:rgba(0,200,255,.3);border-radius:2px 2px 0 0;"></div>
-                  <div style="width:100%;height:62%;background:rgba(0,200,255,.35);border-radius:2px 2px 0 0;"></div>
-                  <div style="width:100%;height:48%;background:rgba(0,200,255,.25);border-radius:2px 2px 0 0;"></div>
-                  <div style="width:100%;height:70%;background:rgba(0,200,255,.4);border-radius:2px 2px 0 0;"></div>
-                  <div style="width:100%;height:75%;background:rgba(0,200,255,.45);border-radius:2px 2px 0 0;"></div>
-                  <div style="width:100%;height:80%;background:rgba(0,200,255,.5);border-radius:2px 2px 0 0;"></div>
-                  <div style="width:100%;height:90%;background:linear-gradient(0deg,var(--nb),rgba(0,200,255,.6));border-radius:2px 2px 0 0;box-shadow:0 0 6px rgba(0,200,255,.4);"></div>
-                </div>
-              </div>
-              <div style="font-size:11px;color:var(--ts);">Avg 61ms → <strong style="color:var(--nb);">68ms</strong> today · trending up ↑</div>
-            </div>
-          </div>
-          <div class="bnav">
-            <div class="bni" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni on" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════
-           SCREEN 8: SOCIAL FEED
-      ═══════════════════════ -->
-      <div class="screen" id="s8" data-name="Social">
-        <div style="background:var(--scr);display:flex;flex-direction:column;height:100%;">
-          <div class="scroll" style="padding:52px 20px 80px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-              <div class="bc" style="font-size:24px;font-weight:900;">Social</div>
-              <div onclick="goTo(&#39;s9&#39;)" style="font-size:11px;color:var(--nb);font-weight:700;cursor:pointer;">Discover →</div>
-            </div>
-
-            <!-- Group -->
-            <div style="background:rgba(0,200,255,.05);border:1px solid rgba(0,200,255,.15);border-radius:13px;padding:11px 13px;margin-bottom:12px;display:flex;align-items:center;gap:10px;">
-              <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(0,200,255,.2),rgba(0,240,200,.15));display:flex;align-items:center;justify-content:center;font-size:18px;">🏋️</div>
-              <div style="flex:1;">
-                <div style="font-size:12px;font-weight:700;">Oslo Lifters</div>
-                <div style="font-size:10px;color:var(--td);">8 members · 3 active this week</div>
-              </div>
-              <div style="font-size:10px;color:var(--nb);font-weight:700;cursor:pointer;">View</div>
-            </div>
-
-            <!-- Feed items -->
-            <div class="sec-label">Activity feed</div>
-
-            <!-- Post 1 - PR -->
-            <div class="card" style="margin-bottom:10px;">
-              <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;">
-                <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,rgba(255,61,138,.2),rgba(168,85,247,.15));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--lm);flex-shrink:0;">M</div>
-                <div style="flex:1;"><div style="font-size:12px;font-weight:700;">Marte Hansen</div><div style="font-size:10px;color:var(--td);">2 hours ago</div></div>
-                <span class="tag t-ec">PR 🏆</span>
-              </div>
-              <div style="font-size:13px;margin-bottom:8px;line-height:1.5;">Hit a new squat PR — <strong style="color:var(--ec);">120kg!</strong> 🎉 18-day streak keeping me honest.</div>
-              <div style="display:flex;gap:14px;">
-                <div style="font-size:12px;color:var(--td);cursor:pointer;">❤️ 12</div>
-                <div style="font-size:12px;color:var(--td);cursor:pointer;">💬 3</div>
-                <div style="font-size:12px;color:var(--td);cursor:pointer;">🔁 Share</div>
-              </div>
-            </div>
-
-            <!-- Post 2 - session -->
-            <div class="card" style="margin-bottom:10px;">
-              <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;">
-                <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,rgba(0,200,255,.2),rgba(0,240,200,.15));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--nb);flex-shrink:0;">T</div>
-                <div style="flex:1;"><div style="font-size:12px;font-weight:700;">Thomas Berg</div><div style="font-size:10px;color:var(--td);">5 hours ago</div></div>
-                <span class="tag t-nb">Session ✓</span>
-              </div>
-              <div style="font-size:13px;margin-bottom:8px;line-height:1.5;">Lower body done 💪 Readiness was only 61 but showed up anyway. 48-day streak.</div>
-              <div style="display:flex;gap:14px;">
-                <div style="font-size:12px;color:var(--td);cursor:pointer;">❤️ 8</div>
-                <div style="font-size:12px;color:var(--td);cursor:pointer;">💬 1</div>
-                <div style="font-size:12px;color:var(--td);cursor:pointer;">🔁 Share</div>
-              </div>
-            </div>
-
-            <!-- Leaderboard -->
-            <div class="card">
-              <div class="sec-label">Oslo Lifters · Weekly streak 🔥</div>
-              <div style="display:flex;flex-direction:column;gap:8px;">
-                <div style="display:flex;align-items:center;gap:9px;">
-                  <div class="bc" style="font-size:14px;font-weight:900;color:var(--wa);width:20px;text-align:center;">1</div>
-                  <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,rgba(0,200,255,.2),rgba(0,240,200,.1));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--nb);">T</div>
-                  <div style="flex:1;font-size:12px;">Thomas Berg</div>
-                  <div style="font-size:12px;font-weight:700;color:var(--lm);">48 🔥</div>
-                </div>
-                <div style="display:flex;align-items:center;gap:9px;">
-                  <div class="bc" style="font-size:14px;font-weight:900;color:var(--ts);width:20px;text-align:center;">2</div>
-                  <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,rgba(255,61,138,.2),rgba(168,85,247,.1));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--lm);">M</div>
-                  <div style="flex:1;font-size:12px;">Marte Hansen</div>
-                  <div style="font-size:12px;font-weight:700;color:var(--wa);">22 🔥</div>
-                </div>
-                <div style="display:flex;align-items:center;gap:9px;background:rgba(0,240,200,.05);border:1px solid rgba(0,240,200,.12);border-radius:8px;padding:4px 6px;">
-                  <div class="bc" style="font-size:14px;font-weight:900;color:var(--ec);width:20px;text-align:center;">3</div>
-                  <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,rgba(0,240,200,.2),rgba(0,200,255,.1));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--ec);">L</div>
-                  <div style="flex:1;font-size:12px;">Lars (you)</div>
-                  <div style="font-size:12px;font-weight:700;color:var(--ec);">18 🔥</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="bnav">
-            <div class="bni" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni on" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════
-           SCREEN 9: DISCOVER
-      ═══════════════════════ -->
-      <div class="screen" id="s9" data-name="Discover">
-        <div style="background:var(--scr);display:flex;flex-direction:column;height:100%;">
-          <div class="scroll" style="padding:52px 20px 80px;">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-              <div onclick="goTo(&#39;s8&#39;)" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
-              <div class="bc" style="font-size:24px;font-weight:900;">Discover</div>
-            </div>
-
-            <!-- Search -->
-            <div style="background:var(--pill);border:1px solid var(--brd2);border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-              <span style="font-size:14px;">🔍</span>
-              <div style="font-size:12px;color:var(--td);">Find people or groups near you...</div>
-            </div>
-
-            <!-- Nearby people -->
-            <div class="sec-label">People near you</div>
-            <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
-              <div class="card" style="display:flex;align-items:center;gap:10px;">
-                <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,rgba(255,184,0,.2),rgba(200,255,0,.1));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--wa);">K</div>
-                <div style="flex:1;">
-                  <div style="font-size:12px;font-weight:700;">Kristin Olsen</div>
-                  <div style="font-size:10px;color:var(--td);">30-day streak · Strength · 0.8km away</div>
-                </div>
-                <div style="padding:6px 12px;background:rgba(0,200,255,.1);border:1px solid rgba(0,200,255,.25);border-radius:20px;font-size:10px;font-weight:700;color:var(--nb);cursor:pointer;">Follow</div>
-              </div>
-              <div class="card" style="display:flex;align-items:center;gap:10px;">
-                <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,rgba(168,85,247,.2),rgba(255,61,138,.1));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--cp);">E</div>
-                <div style="flex:1;">
-                  <div style="font-size:12px;font-weight:700;">Erik Johansen</div>
-                  <div style="font-size:10px;color:var(--td);">12-day streak · Running · 1.2km away</div>
-                </div>
-                <div style="padding:6px 12px;background:rgba(0,200,255,.1);border:1px solid rgba(0,200,255,.25);border-radius:20px;font-size:10px;font-weight:700;color:var(--nb);cursor:pointer;">Follow</div>
-              </div>
-            </div>
-
-            <!-- Local events -->
-            <div class="sec-label">Upcoming local events</div>
-            <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
-              <div style="background:rgba(0,240,200,.05);border:1px solid rgba(0,240,200,.15);border-radius:13px;padding:13px 14px;">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;">
-                  <div class="bc" style="font-size:16px;font-weight:900;">Frognerparken 5k</div>
-                  <span class="tag t-ec">Sat 18 Jan</span>
-                </div>
-                <div style="font-size:11px;color:var(--ts);margin-bottom:8px;">Community run · All paces welcome · 24 Avyro.ai users going</div>
-                <div style="font-size:11px;color:var(--nb);font-weight:700;cursor:pointer;">I'm in →</div>
-              </div>
-              <div class="card">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;">
-                  <div class="bc" style="font-size:16px;font-weight:900;">Powerlifting open</div>
-                  <span class="tag t-nb">Sat 25 Jan</span>
-                </div>
-                <div style="font-size:11px;color:var(--ts);margin-bottom:8px;">SATS Majorstuen · Novice friendly · 8 spots left</div>
-                <div style="font-size:11px;color:var(--nb);font-weight:700;cursor:pointer;">Register →</div>
-              </div>
-            </div>
-
-            <!-- Recurring groups -->
-            <div class="sec-label">Weekly groups</div>
-            <div class="card">
-              <div style="display:flex;align-items:center;gap:10px;">
-                <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(255,184,0,.15),rgba(200,255,0,.1));display:flex;align-items:center;justify-content:center;font-size:18px;">🌅</div>
-                <div style="flex:1;">
-                  <div style="font-size:12px;font-weight:700;">6AM Grind — Oslo</div>
-                  <div style="font-size:10px;color:var(--td);">Mon/Wed/Fri · 6am · 11 members</div>
-                </div>
-                <div style="padding:6px 12px;background:rgba(0,200,255,.1);border:1px solid rgba(0,200,255,.25);border-radius:20px;font-size:10px;font-weight:700;color:var(--nb);cursor:pointer;">Join</div>
-              </div>
-            </div>
-          </div>
-          <div class="bnav">
-            <div class="bni" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni on" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════
-           SCREEN 10: STREAK & PROFILE
-      ═══════════════════════ -->
-      <div class="screen" id="s10" data-name="Streak">
-        <div style="background:var(--scr);display:flex;flex-direction:column;height:100%;">
-          <div class="scroll" style="padding:52px 20px 80px;">
-            <!-- Profile header -->
-            <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
-              <div style="position:relative;">
-                <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,rgba(0,240,200,.2),rgba(0,200,255,.15));border:3px solid var(--ec);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--ec);">L</div>
-                <div style="position:absolute;bottom:-2px;right:-2px;width:20px;height:20px;border-radius:50%;background:var(--ec);border:2px solid var(--scr);display:flex;align-items:center;justify-content:center;font-size:10px;">✓</div>
-              </div>
-              <div>
-                <div class="bc" style="font-size:20px;font-weight:900;">Lars Eriksen</div>
-                <div style="font-size:11px;color:var(--ts);">@lars · Strength + 5k goal</div>
-                <div onclick="goTo(&#39;s11&#39;)" style="font-size:11px;color:var(--nb);font-weight:700;margin-top:2px;cursor:pointer;">View rewards →</div>
-              </div>
-            </div>
-
-            <!-- BIG STREAK -->
-            <div style="background:linear-gradient(135deg,rgba(255,61,138,.08),rgba(255,184,0,.05));border:1px solid rgba(255,61,138,.2);border-radius:16px;padding:20px;text-align:center;margin-bottom:14px;position:relative;overflow:hidden;">
-              <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--lm),var(--wa));"></div>
-              <div style="font-size:40px;margin-bottom:4px;animation:streak-fire 2s infinite;">🔥</div>
-              <div class="bc" style="font-size:72px;font-weight:900;line-height:1;color:var(--text);">18</div>
-              <div style="font-size:12px;color:var(--ts);letter-spacing:1px;text-transform:uppercase;margin-top:2px;">day streak</div>
-              <div style="font-size:11px;color:var(--td);margin-top:8px;font-style:italic;">"And just like that — progress happened."</div>
-
-              <div style="margin-top:14px;background:rgba(0,0,0,.25);border-radius:10px;padding:10px 14px;">
-                <div style="font-size:9px;color:var(--td);margin-bottom:6px;letter-spacing:1px;text-transform:uppercase;">Next milestone · 30 days 🏅</div>
-                <div style="height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;">
-                  <div style="width:60%;height:100%;background:linear-gradient(90deg,var(--lm),var(--wa));border-radius:3px;"></div>
-                </div>
-                <div style="font-size:10px;color:var(--td);margin-top:5px;">12 more days · unlocks Gold outfit</div>
-              </div>
-            </div>
-
-            <!-- Week grid -->
-            <div class="card" style="margin-bottom:12px;">
-              <div class="sec-label">This week</div>
-              <div style="display:flex;gap:5px;">
-                <div style="flex:1;height:38px;border-radius:9px;background:rgba(0,240,200,.12);border:1px solid rgba(0,240,200,.3);display:flex;align-items:center;justify-content:center;font-size:14px;">✓</div>
-                <div style="flex:1;height:38px;border-radius:9px;background:rgba(0,240,200,.12);border:1px solid rgba(0,240,200,.3);display:flex;align-items:center;justify-content:center;font-size:14px;">✓</div>
-                <div style="flex:1;height:38px;border-radius:9px;background:rgba(0,240,200,.12);border:1px solid rgba(0,240,200,.3);display:flex;align-items:center;justify-content:center;font-size:14px;">✓</div>
-                <div style="flex:1;height:38px;border-radius:9px;background:rgba(255,255,255,.04);border:1px dashed var(--brd);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--td);">—</div>
-                <div style="flex:1;height:38px;border-radius:9px;background:linear-gradient(135deg,rgba(255,61,138,.15),rgba(255,184,0,.1));border:1px solid rgba(255,61,138,.3);display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 0 12px rgba(255,61,138,.2);">🔥</div>
-                <div style="flex:1;height:38px;border-radius:9px;background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(255,255,255,.15);">S</div>
-                <div style="flex:1;height:38px;border-radius:9px;background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(255,255,255,.15);">S</div>
-              </div>
-            </div>
-
-            <!-- Milestones hit -->
-            <div class="sec-label">Milestones</div>
-            <div style="display:flex;flex-direction:column;gap:7px;">
-              <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:rgba(0,240,200,.05);border:1px solid rgba(0,240,200,.15);border-radius:10px;">
-                <span style="font-size:18px;">🏅</span>
-                <div style="flex:1;"><div style="font-size:12px;font-weight:700;">10-day streak</div><div style="font-size:10px;color:var(--td);">Cyan outfit unlocked</div></div>
-                <div style="font-size:10px;color:var(--ec);">Jan 5</div>
-              </div>
-              <div onclick="goTo(&#39;s11&#39;)" style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:rgba(255,184,0,.04);border:1px solid rgba(255,184,0,.12);border-radius:10px;cursor:pointer;">
-                <span style="font-size:18px;">⭐</span>
-                <div style="flex:1;"><div style="font-size:12px;font-weight:700;">First PR</div><div style="font-size:10px;color:var(--td);">105kg bench · Jan 8</div></div>
-                <div style="font-size:10px;color:var(--wa);">Jan 8</div>
-              </div>
-            </div>
-          </div>
-          <div class="bnav">
-            <div class="bni" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni on" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════
-           SCREEN 11: REWARDS
-      ═══════════════════════ -->
-      <div class="screen" id="s11" data-name="Rewards">
-        <div style="background:var(--scr);display:flex;flex-direction:column;height:100%;">
-          <div class="scroll" style="padding:52px 20px 80px;">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-              <div onclick="goTo(&#39;s10&#39;)" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
-              <div class="bc" style="font-size:24px;font-weight:900;">Rewards</div>
-            </div>
-
-            <!-- Unlocked card with confetti -->
-            <div style="background:linear-gradient(135deg,rgba(0,240,200,.1),rgba(168,85,247,.07));border:1px solid rgba(0,240,200,.25);border-radius:15px;padding:18px;text-align:center;margin-bottom:16px;position:relative;overflow:hidden;animation:unlock-pop .5s ease both;">
-              <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ec),var(--cp));"></div>
-              <!-- Confetti -->
-              <div style="position:absolute;top:8px;left:22%;width:6px;height:6px;border-radius:1px;background:var(--lm);animation:confetti-fall 1.4s infinite;"></div>
-              <div style="position:absolute;top:5px;left:55%;width:5px;height:5px;border-radius:50%;background:var(--wa);animation:confetti-fall 1.4s infinite .35s;"></div>
-              <div style="position:absolute;top:10px;right:22%;width:6px;height:6px;border-radius:1px;background:var(--ec);animation:confetti-fall 1.4s infinite .7s;"></div>
-              <div style="position:absolute;top:4px;right:12%;width:4px;height:4px;border-radius:50%;background:var(--cp);animation:confetti-fall 1.4s infinite .2s;"></div>
-
-              <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ec);margin-bottom:10px;">🎉 Most Recent Unlock</div>
-              <div style="width:58px;height:58px;border-radius:15px;background:linear-gradient(135deg,rgba(0,240,200,.2),rgba(0,200,255,.15));border:1px solid rgba(0,240,200,.35);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 10px;">🏅</div>
-              <div class="bc" style="font-size:22px;font-weight:900;">10-Day Warrior</div>
-              <div style="font-size:11px;color:var(--ts);margin-top:4px;">Cyan training outfit · earned forever</div>
-            </div>
-
-            <!-- Rewards grid -->
-            <div class="sec-label">All rewards</div>
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
-              <!-- Unlocked -->
-              <div style="background:rgba(0,240,200,.05);border:1px solid rgba(0,240,200,.2);border-radius:12px;padding:12px;text-align:center;">
-                <div style="font-size:24px;margin-bottom:5px;">🏅</div>
-                <div style="font-size:10px;font-weight:700;">10-Day</div>
-                <div style="font-size:9px;color:var(--ec);margin-top:2px;">Unlocked ✓</div>
-              </div>
-              <div style="background:rgba(0,200,255,.05);border:1px solid rgba(0,200,255,.2);border-radius:12px;padding:12px;text-align:center;">
-                <div style="font-size:24px;margin-bottom:5px;">⭐</div>
-                <div style="font-size:10px;font-weight:700;">First PR</div>
-                <div style="font-size:9px;color:var(--nb);margin-top:2px;">Unlocked ✓</div>
-              </div>
-              <!-- Locked -->
-              <div style="background:var(--pill);border:1px solid var(--brd);border-radius:12px;padding:12px;text-align:center;opacity:.55;">
-                <div style="font-size:24px;margin-bottom:5px;">🥇</div>
-                <div style="font-size:10px;font-weight:700;">30-Day</div>
-                <div style="font-size:9px;color:var(--wa);margin-top:2px;">12 days left</div>
-              </div>
-              <div style="background:var(--pill);border:1px solid var(--brd);border-radius:12px;padding:12px;text-align:center;opacity:.55;">
-                <div style="font-size:24px;margin-bottom:5px;">💎</div>
-                <div style="font-size:10px;font-weight:700;">100-Day</div>
-                <div style="font-size:9px;color:var(--td);margin-top:2px;">82 days left</div>
-              </div>
-              <div style="background:var(--pill);border:1px solid var(--brd);border-radius:12px;padding:12px;text-align:center;opacity:.55;">
-                <div style="font-size:24px;margin-bottom:5px;">🔥</div>
-                <div style="font-size:10px;font-weight:700;">5 PRs</div>
-                <div style="font-size:9px;color:var(--td);margin-top:2px;">4 more to go</div>
-              </div>
-              <div style="background:var(--pill);border:1px solid var(--brd);border-radius:12px;padding:12px;text-align:center;opacity:.55;">
-                <div style="font-size:24px;margin-bottom:5px;">🌟</div>
-                <div style="font-size:10px;font-weight:700;">100 Sessions</div>
-                <div style="font-size:9px;color:var(--td);margin-top:2px;">53 to go</div>
-              </div>
-            </div>
-          </div>
-          <div class="bnav">
-            <div class="bni" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni on" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════
-           SCREEN 12: SETTINGS
-      ═══════════════════════ -->
-      <div class="screen" id="s12" data-name="Settings">
-        <div style="background:var(--scr);display:flex;flex-direction:column;height:100%;">
-          <div class="scroll" style="padding:52px 20px 80px;">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
-              <div class="a-icon" style="width:30px;height:30px;border-radius:9px;"><span class="a" style="font-size:15px;">A</span></div>
-              <div class="bc" style="font-size:24px;font-weight:900;">Settings</div>
-            </div>
-
-            <!-- Program -->
-            <div class="card" style="margin-bottom:10px;">
-              <div class="sec-label">Program</div>
-              <div style="display:flex;flex-direction:column;">
-                <div style="display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--brd);cursor:pointer;">
-                  <div style="flex:1;font-size:13px;">Training goal</div><div style="font-size:11px;color:var(--td);">Strength</div><div style="font-size:16px;color:var(--td);margin-left:6px;">›</div>
-                </div>
-                <div style="display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--brd);cursor:pointer;">
-                  <div style="flex:1;font-size:13px;">Training days</div><div style="font-size:11px;color:var(--td);">Tue · Thu · Sat</div><div style="font-size:16px;color:var(--td);margin-left:6px;">›</div>
-                </div>
-                <div style="display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--brd);cursor:pointer;">
-                  <div style="flex:1;font-size:13px;">Session length</div><div style="font-size:11px;color:var(--td);">60 min</div><div style="font-size:16px;color:var(--td);margin-left:6px;">›</div>
-                </div>
-                <div style="display:flex;align-items:center;padding:10px 0;cursor:pointer;">
-                  <div style="flex:1;font-size:13px;">Equipment</div><div style="font-size:11px;color:var(--td);">Full gym</div><div style="font-size:16px;color:var(--td);margin-left:6px;">›</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- AI -->
-            <div class="card" style="margin-bottom:10px;">
-              <div class="sec-label">AI Behaviour</div>
-              <div style="display:flex;flex-direction:column;">
-                <div style="display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--brd);">
-                  <div style="flex:1;">
-                    <div style="font-size:13px;">Auto-adjust intensity</div>
-                    <div style="font-size:10px;color:var(--td);margin-top:1px;">AI reduces load when readiness is low</div>
-                  </div>
-                  <div class="tog on"><div class="tog-knob"></div></div>
-                </div>
-                <div style="display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--brd);">
-                  <div style="flex:1;">
-                    <div style="font-size:13px;">Sickness mode</div>
-                    <div style="font-size:10px;color:var(--td);margin-top:1px;">Pause when HRV crashes</div>
-                  </div>
-                  <div class="tog on"><div class="tog-knob"></div></div>
-                </div>
-                <div style="display:flex;align-items:center;padding:10px 0;cursor:pointer;">
-                  <div style="flex:1;">
-                    <div style="font-size:13px;">Coach banter level</div>
-                    <div style="font-size:10px;color:var(--td);margin-top:1px;">How cheeky do you want it?</div>
-                  </div>
-                  <div style="font-size:11px;color:var(--td);">High 😄</div><div style="font-size:16px;color:var(--td);margin-left:6px;">›</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Notifications -->
-            <div class="card" style="margin-bottom:10px;">
-              <div class="sec-label">Notifications</div>
-              <div style="display:flex;flex-direction:column;">
-                <div style="display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--brd);">
-                  <div style="flex:1;font-size:13px;">Morning readiness</div>
-                  <div class="tog on"><div class="tog-knob"></div></div>
-                </div>
-                <div style="display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--brd);">
-                  <div style="flex:1;font-size:13px;">Streak reminders</div>
-                  <div class="tog on"><div class="tog-knob"></div></div>
-                </div>
-                <div style="display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--brd);">
-                  <div style="flex:1;font-size:13px;">PR celebrations</div>
-                  <div class="tog on"><div class="tog-knob"></div></div>
-                </div>
-                <div style="display:flex;align-items:center;padding:10px 0;">
-                  <div style="flex:1;font-size:13px;">Social nudges</div>
-                  <div class="tog off"><div class="tog-knob"></div></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Screens -->
-            <div class="card" style="margin-bottom:10px;">
-              <div class="sec-label">Quick nav · demo screens</div>
-              <div style="display:flex;flex-direction:column;gap:6px;">
-                <div onclick="goTo(&#39;s13&#39;)" style="padding:9px 12px;background:rgba(255,61,138,.05);border:1px solid rgba(255,61,138,.15);border-radius:9px;font-size:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;"><span>🔔 Notifications panel</span><span style="color:var(--td);">›</span></div>
-                <div onclick="goTo(&#39;s14&#39;)" style="padding:9px 12px;background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.15);border-radius:9px;font-size:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;"><span>😴 Burnout mode</span><span style="color:var(--td);">›</span></div>
-                <div onclick="goTo(&#39;s15&#39;)" style="padding:9px 12px;background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.15);border-radius:9px;font-size:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;"><span>🤒 Sickness mode</span><span style="color:var(--td);">›</span></div>
-              </div>
-            </div>
-
-            <!-- Version -->
-            <div style="text-align:center;padding:10px 0;">
-              <div class="wordmark" style="font-size:16px;margin-bottom:3px;">Avyro<span class="dot">.</span><span class="ai">ai</span></div>
-              <div style="font-size:10px;color:var(--td);">v1.0.0 · Built for people who show up</div>
-            </div>
-          </div>
-          <div class="bnav">
-            <div class="bni" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni on" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════
-           SCREEN 13: NOTIFICATIONS
-      ═══════════════════════ -->
-      <div class="screen" id="s13" data-name="Notifications">
-        <div style="background:var(--scr);display:flex;flex-direction:column;height:100%;">
-          <div class="scroll" style="padding:52px 20px 80px;">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-              <div onclick="goTo(&#39;s4&#39;)" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
-              <div class="bc" style="font-size:24px;font-weight:900;">Notifications</div>
-              <div style="margin-left:auto;font-size:11px;color:var(--nb);cursor:pointer;">Mark all read</div>
-            </div>
-
-            <div class="sec-label">Today</div>
-            <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
-
-              <!-- Unread - readiness -->
-              <div style="background:rgba(0,240,200,.05);border:1px solid rgba(0,240,200,.15);border-radius:13px;padding:12px 14px;display:flex;gap:10px;position:relative;overflow:hidden;cursor:pointer;" onclick="goTo(&#39;s4&#39;)">
-                <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ec);"></div>
-                <div class="a-icon" style="width:34px;height:34px;border-radius:10px;flex-shrink:0;"><span class="a" style="font-size:17px;">A</span></div>
-                <div style="flex:1;">
-                  <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
-                    <div style="font-size:11px;font-weight:700;">Avyro.ai</div>
-                    <div style="font-size:10px;color:var(--td);">7:32 AM</div>
-                  </div>
-                  <div style="font-size:12px;color:var(--ts);line-height:1.5;">Readiness 87. Today's your day to go hard. Upper body's waiting. 💪</div>
-                </div>
-              </div>
-
-              <!-- Streak at risk - unread -->
-              <div style="background:rgba(255,61,138,.05);border:1px solid rgba(255,61,138,.15);border-radius:13px;padding:12px 14px;display:flex;gap:10px;position:relative;overflow:hidden;cursor:pointer;" onclick="goTo(&#39;s10&#39;)">
-                <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--lm);"></div>
-                <div class="a-icon" style="width:34px;height:34px;border-radius:10px;flex-shrink:0;"><span class="a" style="font-size:17px;">A</span></div>
-                <div style="flex:1;">
-                  <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
-                    <div style="font-size:11px;font-weight:700;">Avyro.ai</div>
-                    <div style="font-size:10px;color:var(--td);">Yesterday · 6:00 PM</div>
-                  </div>
-                  <div style="font-size:12px;color:var(--ts);line-height:1.5;">18-day streak on the line. 12 minutes is enough. Let's not throw that away. 🔥</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="sec-label">Earlier</div>
-            <div style="display:flex;flex-direction:column;gap:8px;">
-
-              <!-- PR -->
-              <div style="background:var(--pill);border:1px solid var(--brd);border-radius:13px;padding:12px 14px;display:flex;gap:10px;cursor:pointer;" onclick="goTo(&#39;s7&#39;)">
-                <div class="a-icon" style="width:34px;height:34px;border-radius:10px;flex-shrink:0;opacity:.7;"><span class="a" style="font-size:17px;">A</span></div>
-                <div style="flex:1;">
-                  <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
-                    <div style="font-size:11px;font-weight:700;">Avyro.ai</div>
-                    <div style="font-size:10px;color:var(--td);">Jan 8</div>
-                  </div>
-                  <div style="font-size:12px;color:var(--td);line-height:1.5;">105kg bench. That's a PR. Someone chose violence. 🏆 Certified win.</div>
-                </div>
-              </div>
-
-              <!-- Social -->
-              <div style="background:var(--pill);border:1px solid var(--brd);border-radius:13px;padding:12px 14px;display:flex;gap:10px;cursor:pointer;" onclick="goTo(&#39;s8&#39;)">
-                <div class="a-icon" style="width:34px;height:34px;border-radius:10px;flex-shrink:0;opacity:.7;"><span class="a" style="font-size:17px;">A</span></div>
-                <div style="flex:1;">
-                  <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
-                    <div style="font-size:11px;font-weight:700;">Avyro.ai</div>
-                    <div style="font-size:10px;color:var(--td);">Jan 7</div>
-                  </div>
-                  <div style="font-size:12px;color:var(--td);line-height:1.5;">Marte just hit a 30-day streak. The competition is real. 👀</div>
-                </div>
-              </div>
-
-              <!-- Recovery -->
-              <div style="background:var(--pill);border:1px solid var(--brd);border-radius:13px;padding:12px 14px;display:flex;gap:10px;cursor:pointer;" onclick="goTo(&#39;s14&#39;)">
-                <div class="a-icon" style="width:34px;height:34px;border-radius:10px;flex-shrink:0;opacity:.7;"><span class="a" style="font-size:17px;">A</span></div>
-                <div style="flex:1;">
-                  <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
-                    <div style="font-size:11px;font-weight:700;">Avyro.ai</div>
-                    <div style="font-size:10px;color:var(--td);">Jan 5</div>
-                  </div>
-                  <div style="font-size:12px;color:var(--td);line-height:1.5;">HRV's been low 3 days. Rest today — not optional. Body's talking. 😴</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="bnav">
-            <div class="bni" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════
-           SCREEN 14: BURNOUT MODE
-      ═══════════════════════ -->
-      <div class="screen" id="s14" data-name="Burnout Mode">
-        <div style="background:#060910;display:flex;flex-direction:column;height:100%;">
-          <div style="position:absolute;inset:0;background:radial-gradient(ellipse 250px 200px at 50% 35%,rgba(168,85,247,.07),transparent),radial-gradient(ellipse 200px 160px at 20% 70%,rgba(255,61,138,.04),transparent);pointer-events:none;"></div>
-          <div class="scroll" style="padding:52px 20px 80px;position:relative;z-index:1;">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-              <div onclick="goTo(&#39;s4&#39;)" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
-              <div class="a-icon" style="width:28px;height:28px;border-radius:8px;opacity:.65;"><span class="a" style="font-size:14px;">A</span></div>
-              <div class="wordmark" style="font-size:18px;">Avyro<span class="dot">.</span><span class="ai">ai</span></div>
-            </div>
-
-            <!-- Low readiness card -->
-            <div style="background:linear-gradient(135deg,rgba(168,85,247,.08),rgba(255,61,138,.04));border:1px solid rgba(168,85,247,.2);border-radius:15px;padding:16px;margin-bottom:12px;position:relative;overflow:hidden;">
-              <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cp),rgba(255,61,138,.5));"></div>
-              <div style="display:flex;align-items:center;gap:14px;">
-                <div style="position:relative;">
-                  <svg width="72" height="72">
-                    <circle cx="36" cy="36" r="28" fill="none" stroke="rgba(168,85,247,.12)" stroke-width="6"></circle>
-                    <circle cx="36" cy="36" r="28" fill="none" stroke="url(#bg1)" stroke-width="6" stroke-linecap="round" stroke-dasharray="176" stroke-dashoffset="138" transform="rotate(-90 36 36)"></circle>
-                    <text x="36" y="41" text-anchor="middle" fill="white" font-family="Barlow Condensed" font-weight="900" font-size="19">28</text>
-                    <defs>
-                      <lineargradient id="bg1" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#A855F7"></stop>
-                        <stop offset="100%" stop-color="#FF3D8A"></stop>
-                      </lineargradient>
-                    </defs>
-                  </svg>
-                </div>
-                <div>
-                  <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cp);margin-bottom:3px;">Readiness · 3 days low</div>
-                  <div class="bc" style="font-size:20px;font-weight:900;line-height:1;">Rest mode active.</div>
-                  <div style="font-size:11px;color:var(--ts);margin-top:4px;line-height:1.5;">Body's talking. We're listening.<br>Training is paused for now.</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- AI message -->
-            <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:12px;">
-              <div class="ai-avatar">⚡</div>
-              <div class="cb-ai">Sounds like a heavy week.<br>We train to support you — not drain you.<br>Let's keep it light today.</div>
-            </div>
-
-            <!-- Recovery options -->
-            <div class="sec-label">Suggested today</div>
-            <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
-              <div style="background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.15);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;">
-                <span style="font-size:22px;">🧘</span>
-                <div><div style="font-size:12px;font-weight:700;">12-min mobility flow</div><div style="font-size:10px;color:var(--td);">Gentle. Won't touch the streak.</div></div>
-              </div>
-              <div style="background:rgba(0,200,255,.05);border:1px solid rgba(0,200,255,.12);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;">
-                <span style="font-size:22px;">🚶</span>
-                <div><div style="font-size:12px;font-weight:700;">15-min walk outdoors</div><div style="font-size:10px;color:var(--td);">Counts. Boosts HRV. Earns the day.</div></div>
-              </div>
-              <div class="card" style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-                <span style="font-size:22px;">😴</span>
-                <div><div style="font-size:12px;font-weight:700;">Full rest day</div><div style="font-size:10px;color:var(--td);">Sometimes the best move is nothing.</div></div>
-              </div>
-            </div>
-
-            <!-- ZZZ tip -->
-            <div class="card" style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-              <div style="position:relative;font-size:22px;flex-shrink:0;">
-                😴
-                <div style="position:absolute;top:-8px;right:-10px;font-size:10px;color:var(--cp);animation:zz 2s infinite;">z</div>
-                <div style="position:absolute;top:-14px;right:-4px;font-size:13px;color:var(--cp);animation:zz 2s infinite .6s;">Z</div>
-              </div>
-              <div style="font-size:11px;color:var(--ts);line-height:1.5;">Aim for 8h sleep. HRV will thank you. Program resumes when you're ready.</div>
-            </div>
-
-            <div onclick="goTo(&#39;s15&#39;)" style="text-align:center;font-size:12px;color:var(--cp);cursor:pointer;padding:8px;">See sickness mode →</div>
-          </div>
-          <div class="bnav">
-            <div class="bni on" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════
-           SCREEN 15: SICKNESS MODE
-      ═══════════════════════ -->
-      <div class="screen" id="s15" data-name="Sickness Mode">
-        <div style="background:#060910;display:flex;flex-direction:column;height:100%;">
-          <div style="position:absolute;inset:0;background:radial-gradient(ellipse 250px 200px at 50% 35%,rgba(168,85,247,.06),transparent);pointer-events:none;"></div>
-          <div class="scroll" style="padding:52px 20px 80px;position:relative;z-index:1;">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-              <div onclick="goTo(&#39;s14&#39;)" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
-              <div class="a-icon" style="width:28px;height:28px;border-radius:8px;opacity:.6;"><span class="a" style="font-size:14px;">A</span></div>
-              <div class="wordmark" style="font-size:18px;">Avyro<span class="dot">.</span><span class="ai">ai</span></div>
-              <span class="tag t-cp" style="margin-left:auto;">Sickness mode</span>
-            </div>
-
-            <!-- Paused card -->
-            <div style="background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.2);border-radius:15px;padding:16px;margin-bottom:12px;position:relative;overflow:hidden;">
-              <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--cp);"></div>
-              <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cp);margin-bottom:6px;">Program paused · day 2</div>
-              <div class="bc" style="font-size:22px;font-weight:900;margin-bottom:5px;">Get well first.</div>
-              <div style="font-size:12px;color:var(--ts);line-height:1.6;">Training can wait. Your streak is frozen — it won't count down while you're sick.</div>
-            </div>
-
-            <!-- AI -->
-            <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:12px;">
-              <div class="ai-avatar">⚡</div>
-              <div class="cb-ai">I see we scheduled some aggressive recovery days. 😄<br><br>No seriously — rest. Program picks up exactly where we left off.</div>
-            </div>
-
-            <!-- Streak frozen -->
-            <div style="background:rgba(255,184,0,.05);border:1px solid rgba(255,184,0,.15);border-radius:12px;padding:13px 14px;display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-              <span style="font-size:24px;">🔥</span>
-              <div style="flex:1;">
-                <div style="font-size:13px;font-weight:700;">18-day streak · frozen ❄️</div>
-                <div style="font-size:10px;color:var(--td);">Sick days don't break streaks. Resumes when you're back.</div>
-              </div>
-            </div>
-
-            <!-- Return checklist -->
-            <div class="card" style="margin-bottom:14px;">
-              <div class="sec-label">Return checklist</div>
-              <div style="display:flex;flex-direction:column;gap:9px;">
-                <div style="display:flex;align-items:center;gap:10px;">
-                  <div style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--brd);flex-shrink:0;"></div>
-                  <div style="font-size:12px;color:var(--ts);">HRV back to baseline</div>
-                </div>
-                <div style="display:flex;align-items:center;gap:10px;">
-                  <div style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--brd);flex-shrink:0;"></div>
-                  <div style="font-size:12px;color:var(--ts);">Resting heart rate normalised</div>
-                </div>
-                <div style="display:flex;align-items:center;gap:10px;">
-                  <div style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--brd);flex-shrink:0;"></div>
-                  <div style="font-size:12px;color:var(--ts);">Symptom-free for 24h</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Resume -->
-            <div onclick="goTo(&#39;s4&#39;)" style="background:var(--pill);border:1px solid var(--brd);border-radius:13px;padding:14px;text-align:center;font-size:13px;font-weight:600;color:var(--ts);cursor:pointer;">
-              I'm feeling better → Resume program
-            </div>
-          </div>
-          <div class="bnav">
-            <div class="bni on" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /phone-shell -->
-  </div><!-- /phone-wrap -->
-
-  <!-- Mobile FAB -->
-  <button class="mob-fab" id="mobFab" onclick="toggleDrawer()">☰</button>
-
-  <!-- Mobile drawer -->
-  <div class="mob-drawer" id="mobDrawer" onclick="closeDrawer(event)">
-    <div class="mob-drawer-inner">
-      <div class="mob-drawer-handle"></div>
-      <div class="mob-drawer-title">AVYRO.AI · SCREENS</div>
-
-      <div class="mob-group-label">Onboarding</div>
-      <div class="mob-screen-grid">
-        <div class="mob-screen-btn" data-screen="s0" onclick="mobGoTo(&#39;s0&#39;)"><span class="ico">⏳</span><span class="lbl">Loading</span></div>
-        <div class="mob-screen-btn" data-screen="s1" onclick="mobGoTo(&#39;s1&#39;)"><span class="ico">🚀</span><span class="lbl">Splash</span></div>
-        <div class="mob-screen-btn" data-screen="s2" onclick="mobGoTo(&#39;s2&#39;)"><span class="ico">💬</span><span class="lbl">Onboarding</span></div>
-        <div class="mob-screen-btn" data-screen="s3" onclick="mobGoTo(&#39;s3&#39;)"><span class="ico">📋</span><span class="lbl">Program Ready</span></div>
-      </div>
-
-      <div class="mob-group-label">Main App</div>
-      <div class="mob-screen-grid">
-        <div class="mob-screen-btn" data-screen="s4" onclick="mobGoTo(&#39;s4&#39;)"><span class="ico">🏠</span><span class="lbl">Today / Home</span></div>
-        <div class="mob-screen-btn" data-screen="s5" onclick="mobGoTo(&#39;s5&#39;)"><span class="ico">💪</span><span class="lbl">Workout</span></div>
-        <div class="mob-screen-btn" data-screen="s6" onclick="mobGoTo(&#39;s6&#39;)"><span class="ico">⚡</span><span class="lbl">AI Coach</span></div>
-        <div class="mob-screen-btn" data-screen="s7" onclick="mobGoTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-      </div>
-
-      <div class="mob-group-label">Social</div>
-      <div class="mob-screen-grid">
-        <div class="mob-screen-btn" data-screen="s8" onclick="mobGoTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social Feed</span></div>
-        <div class="mob-screen-btn" data-screen="s9" onclick="mobGoTo(&#39;s9&#39;)"><span class="ico">🔍</span><span class="lbl">Discover</span></div>
-      </div>
-
-      <div class="mob-group-label">Profile &amp; Rewards</div>
-      <div class="mob-screen-grid">
-        <div class="mob-screen-btn" data-screen="s10" onclick="mobGoTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-        <div class="mob-screen-btn" data-screen="s11" onclick="mobGoTo(&#39;s11&#39;)"><span class="ico">🏅</span><span class="lbl">Rewards</span></div>
-      </div>
-
-      <div class="mob-group-label">Settings &amp; More</div>
-      <div class="mob-screen-grid">
-        <div class="mob-screen-btn" data-screen="s12" onclick="mobGoTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">Settings</span></div>
-        <div class="mob-screen-btn" data-screen="s13" onclick="mobGoTo(&#39;s13&#39;)"><span class="ico">🔔</span><span class="lbl">Notifications</span></div>
-        <div class="mob-screen-btn" data-screen="s14" onclick="mobGoTo(&#39;s14&#39;)"><span class="ico">😴</span><span class="lbl">Burnout Mode</span></div>
-        <div class="mob-screen-btn" data-screen="s15" onclick="mobGoTo(&#39;s15&#39;)"><span class="ico">🤒</span><span class="lbl">Sickness Mode</span></div>
+    </div>
+
+    <!-- Input -->
+    <div style="padding-bottom:24px;">
+      <div class="chat-input-bar">
+        <input id="onboardingInput" type="text" placeholder="Type your goal..." onkeydown="if(event.key===&#39;Enter&#39;)sendOnboardingText()">
+        <button class="send-btn" onclick="sendOnboardingText()">→</button>
       </div>
     </div>
   </div>
+  <div class="scroll-hint">↓ continue</div>
+</div>
 
-</div><!-- /outer -->
+<!-- ═══════════════════════════════════
+     SCREEN 3: HEALTH CONNECT
+═══════════════════════════════════ -->
+<div class="sec-div"><div class="sec-div-num">2</div><div class="sec-div-name">Connect Health Data</div></div>
+<div class="screen-section" style="background:var(--bg);justify-content:center;">
+  <div style="padding:32px 20px;">
+    <div class="bc" style="font-size:32px;font-weight:900;margin-bottom:6px;">Connect your data.</div>
+    <div style="font-size:14px;color:var(--ts);margin-bottom:28px;line-height:1.6;">Avyro.ai reads your HRV, sleep and recovery to adapt your training every day.</div>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
+      <div class="card-ec" style="display:flex;align-items:center;gap:14px;">
+        <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#FF3B30,#FF6B6B);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">❤️</div>
+        <div style="flex:1;">
+          <div style="font-size:15px;font-weight:700;">Apple Health</div>
+          <div style="font-size:11px;color:var(--ec);">HRV · Sleep · Steps · RHR</div>
+        </div>
+        <div class="tog on"><div class="tog-knob"></div></div>
+      </div>
+      <div class="card" style="display:flex;align-items:center;gap:14px;">
+        <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#1A8CFF,#0055CC);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">⌚</div>
+        <div style="flex:1;">
+          <div style="font-size:15px;font-weight:700;">Garmin</div>
+          <div style="font-size:11px;color:var(--td);">GPS · HRV · Training Load</div>
+        </div>
+        <div class="tog off"><div class="tog-knob"></div></div>
+      </div>
+      <div class="card" style="display:flex;align-items:center;gap:14px;">
+        <div style="width:44px;height:44px;border-radius:12px;background:#111;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">💍</div>
+        <div style="flex:1;">
+          <div style="font-size:15px;font-weight:700;">Oura / WHOOP</div>
+          <div style="font-size:11px;color:var(--td);">Sleep · Recovery score</div>
+        </div>
+        <div class="tog off"><div class="tog-knob"></div></div>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="this.textContent=&#39;✓ Connected!&#39;;this.style.opacity=&#39;.7&#39;">CONNECT APPLE HEALTH →</button>
+    <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--td);">Skip for now · set up later in Settings</div>
+  </div>
+  <div class="scroll-hint">↓ your program</div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SCREEN 4: PROGRAM READY
+═══════════════════════════════════ -->
+<div class="sec-div"><div class="sec-div-num">3</div><div class="sec-div-name">Program Ready</div></div>
+<div class="screen-section" style="background:var(--bg);justify-content:center;">
+  <div style="padding:28px 20px;">
+    <div style="background:linear-gradient(135deg,rgba(0,240,200,.07),rgba(0,200,255,.04));border:1px solid rgba(0,240,200,.2);border-radius:16px;padding:18px;margin-bottom:16px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ec),var(--nb));"></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--ec);box-shadow:0 0 8px rgba(0,240,200,.8);"></div>
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ec);">Program ready</div>
+      </div>
+      <div class="bc" style="font-size:26px;font-weight:900;line-height:1;margin-bottom:4px;">Strength + Cardio Base</div>
+      <div style="font-size:12px;color:var(--ts);">Built from what you said · adapts daily to your readiness</div>
+    </div>
+
+    <!-- Week -->
+    <div class="sec-label">Your week</div>
+    <div style="display:flex;gap:4px;margin-bottom:16px;">
+      <div style="flex:1;border-radius:10px;padding:8px 4px;text-align:center;font-size:9px;font-weight:700;background:rgba(255,255,255,.03);border:1px dashed var(--brd);color:var(--td);">MON<br>Rest</div>
+      <div style="flex:1;border-radius:10px;padding:8px 4px;text-align:center;font-size:9px;font-weight:700;background:rgba(0,240,200,.1);border:1px solid rgba(0,240,200,.25);color:var(--ec);">TUE<br>Upper</div>
+      <div style="flex:1;border-radius:10px;padding:8px 4px;text-align:center;font-size:9px;font-weight:700;background:rgba(255,255,255,.03);border:1px dashed var(--brd);color:var(--td);">WED<br>Rest</div>
+      <div style="flex:1;border-radius:10px;padding:8px 4px;text-align:center;font-size:9px;font-weight:700;background:rgba(0,240,200,.1);border:1px solid rgba(0,240,200,.25);color:var(--ec);">THU<br>Lower</div>
+      <div style="flex:1;border-radius:10px;padding:8px 4px;text-align:center;font-size:9px;font-weight:700;background:rgba(255,255,255,.03);border:1px dashed var(--brd);color:var(--td);">FRI<br>Rest</div>
+      <div style="flex:1;border-radius:10px;padding:8px 4px;text-align:center;font-size:9px;font-weight:700;background:rgba(0,240,200,.1);border:1px solid rgba(0,240,200,.25);color:var(--ec);">SAT<br>Full</div>
+      <div style="flex:1;border-radius:10px;padding:8px 4px;text-align:center;font-size:9px;font-weight:700;background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.2);color:var(--nb);">SUN<br>Run</div>
+    </div>
+
+    <!-- Today -->
+    <div class="card" style="margin-bottom:14px;">
+      <div class="sec-label">Today · Upper Body</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;justify-content:space-between;"><span style="font-size:14px;">Bench Press</span><span style="font-size:13px;color:var(--td);">4 × 6–8</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="font-size:14px;">Barbell Row</span><span style="font-size:13px;color:var(--td);">4 × 6–8</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="font-size:14px;">Overhead Press</span><span style="font-size:13px;color:var(--td);">3 × 8–10</span></div>
+        <div style="font-size:12px;color:var(--td);font-style:italic;">+ 5 more · ~60 min</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:20px;">
+      <div class="ai-avatar">⚡</div>
+      <div class="cb-ai" style="font-size:13px;">"Sundays I've added a 20-min run. Builds your cardio base without touching your strength days. Data says this was a good idea. 😄"</div>
+    </div>
+
+    <button class="btn-primary">START TRAINING →</button>
+  </div>
+  <div class="scroll-hint">↓ home screen</div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SCREEN 5: HOME / TODAY
+═══════════════════════════════════ -->
+<div class="sec-div"><div class="sec-div-num">4</div><div class="sec-div-name">Today / Home</div></div>
+<div class="screen-section" style="background:var(--bg);">
+  <div style="padding:24px 20px;display:flex;flex-direction:column;gap:14px;">
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <div class="bc" style="font-size:28px;font-weight:900;line-height:1;">Good morning, Lars 👋</div>
+        <div style="font-size:13px;color:var(--ts);margin-top:2px;">Tuesday · 14 January</div>
+      </div>
+      <div class="a-icon" style="width:42px;height:42px;border-radius:13px;position:relative;">
+        <span class="a" style="font-size:20px;">A</span>
+        <div style="position:absolute;top:-3px;right:-3px;width:12px;height:12px;border-radius:50%;background:var(--lm);border:2px solid var(--bg);"></div>
+      </div>
+    </div>
+
+    <!-- Readiness -->
+    <div style="background:linear-gradient(135deg,rgba(0,240,200,.07),rgba(0,200,255,.04));border:1px solid rgba(0,240,200,.18);border-radius:16px;padding:18px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ec),var(--nb));"></div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <svg width="84" height="84">
+          <circle cx="42" cy="42" r="34" fill="none" stroke="rgba(0,240,200,.08)" stroke-width="7"></circle>
+          <circle cx="42" cy="42" r="34" fill="none" stroke="url(#rg1)" stroke-width="7" stroke-linecap="round" stroke-dasharray="214" stroke-dashoffset="35" transform="rotate(-90 42 42)"></circle>
+          <text x="42" y="47" text-anchor="middle" fill="white" font-family="Barlow Condensed" font-weight="900" font-size="22">87</text>
+          <defs><lineargradient id="rg1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#00F0C8"></stop><stop offset="100%" stop-color="#00C8FF"></stop></lineargradient></defs>
+        </svg>
+        <div>
+          <div style="font-size:9px;color:var(--td);letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;">Readiness today</div>
+          <div class="bc" style="font-size:28px;font-weight:900;color:var(--ec);line-height:1;">Outstanding.</div>
+          <div style="font-size:12px;color:var(--ts);margin-top:4px;line-height:1.6;">HRV 68ms · Slept 7.4h<br>Go hard today.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px;">
+        <div style="flex:1;background:rgba(0,0,0,.2);border-radius:10px;padding:8px;text-align:center;">
+          <div class="bc" style="font-size:18px;font-weight:900;color:var(--ec);">68ms</div>
+          <div style="font-size:9px;color:var(--td);">HRV</div>
+        </div>
+        <div style="flex:1;background:rgba(0,0,0,.2);border-radius:10px;padding:8px;text-align:center;">
+          <div class="bc" style="font-size:18px;font-weight:900;color:var(--nb);">7.4h</div>
+          <div style="font-size:9px;color:var(--td);">Sleep</div>
+        </div>
+        <div style="flex:1;background:rgba(0,0,0,.2);border-radius:10px;padding:8px;text-align:center;">
+          <div class="bc" style="font-size:18px;font-weight:900;color:var(--cp);">52bpm</div>
+          <div style="font-size:9px;color:var(--td);">RHR</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI message -->
+    <div style="display:flex;gap:10px;align-items:flex-start;">
+      <div class="ai-avatar">⚡</div>
+      <div class="cb-ai">Readiness 87. Today's your day to go hard. Upper body's waiting. 💪</div>
+    </div>
+
+    <!-- Today's workout -->
+    <div style="background:linear-gradient(135deg,rgba(255,61,138,.08),rgba(168,85,247,.05));border:1px solid rgba(255,61,138,.2);border-radius:16px;padding:16px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--lm),var(--cp));"></div>
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--lm);margin-bottom:4px;">Today's session</div>
+      <div class="bc" style="font-size:22px;font-weight:900;margin-bottom:8px;">Upper Body Hypertrophy</div>
+      <div style="display:flex;gap:6px;">
+        <span class="tag t-lm">60 min</span>
+        <span class="tag t-cp">8 exercises</span>
+        <span class="tag t-nb">High intensity</span>
+      </div>
+    </div>
+
+    <!-- Streak -->
+    <div style="background:rgba(255,61,138,.06);border:1px solid rgba(255,61,138,.15);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;">
+      <div style="font-size:34px;animation:streak-fire 2s infinite;">🔥</div>
+      <div>
+        <div class="bc" style="font-size:22px;font-weight:900;">18-day streak</div>
+        <div style="font-size:11px;color:var(--td);">12 days to gold milestone 🏅</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ active workout</div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SCREEN 6: WORKOUT SESSION
+═══════════════════════════════════ -->
+<div class="sec-div"><div class="sec-div-num">5</div><div class="sec-div-name">Workout Session</div></div>
+<div class="screen-section" style="background:#050810;">
+  <div style="padding:24px 20px;display:flex;flex-direction:column;gap:14px;">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <div class="bc" style="font-size:20px;font-weight:900;">Upper Body Hypertrophy</div>
+        <div style="font-size:11px;color:var(--td);">Exercise 2 of 8 · 34 min elapsed</div>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div style="height:3px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;">
+      <div style="width:25%;height:100%;background:linear-gradient(90deg,var(--ec),var(--nb));border-radius:2px;"></div>
+    </div>
+
+    <!-- Current exercise -->
+    <div style="background:linear-gradient(135deg,rgba(255,61,138,.08),rgba(168,85,247,.06));border:1px solid rgba(255,61,138,.2);border-radius:16px;padding:20px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--lm),var(--cp));"></div>
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--lm);margin-bottom:4px;">Now</div>
+      <div class="bc" style="font-size:32px;font-weight:900;margin-bottom:6px;">Bench Press</div>
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <span class="tag t-lm">Set 2 of 4</span>
+        <span class="tag t-cp">Target: 6–8 reps</span>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <div style="flex:1;background:rgba(0,0,0,.3);border-radius:12px;padding:14px;text-align:center;">
+          <div style="font-size:10px;color:var(--td);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;">Weight</div>
+          <div class="bc" style="font-size:36px;font-weight:900;">80<span style="font-size:16px;color:var(--td);">kg</span></div>
+        </div>
+        <div style="flex:1;background:rgba(0,0,0,.3);border-radius:12px;padding:14px;text-align:center;">
+          <div style="font-size:10px;color:var(--td);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;">Last set</div>
+          <div class="bc" style="font-size:36px;font-weight:900;color:var(--ec);">8<span style="font-size:16px;color:var(--td);">reps</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log set -->
+    <div class="card">
+      <div class="sec-label">Log this set</div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <div style="flex:1;background:rgba(0,0,0,.2);border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
+          <div style="font-size:10px;color:var(--td);margin-bottom:2px;">Reps</div>
+          <div class="bc" style="font-size:28px;font-weight:900;">7</div>
+        </div>
+        <div style="font-size:22px;color:var(--td);">×</div>
+        <div style="flex:1;background:rgba(0,0,0,.2);border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
+          <div style="font-size:10px;color:var(--td);margin-bottom:2px;">kg</div>
+          <div class="bc" style="font-size:28px;font-weight:900;">80</div>
+        </div>
+        <button onclick="this.textContent=&#39;✓&#39;;this.style.background=&#39;rgba(0,240,200,.3)&#39;" style="flex:1;padding:14px;background:linear-gradient(135deg,var(--ec),var(--nb));border:none;border-radius:12px;font-family:&#39;Barlow Condensed&#39;,sans-serif;font-weight:900;font-size:16px;color:#07090F;cursor:pointer;letter-spacing:1px;">LOG</button>
+      </div>
+    </div>
+
+    <!-- Rest timer -->
+    <div style="background:rgba(0,200,255,.05);border:1px solid rgba(0,200,255,.15);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;">
+      <div style="text-align:center;">
+        <div class="bc" style="font-size:32px;font-weight:900;color:var(--nb);animation:timer-tick 1s infinite;">1:45</div>
+        <div style="font-size:10px;color:var(--td);">Rest timer</div>
+      </div>
+      <div style="flex:1;height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;">
+        <div style="width:58%;height:100%;background:linear-gradient(90deg,var(--nb),var(--ec));border-radius:3px;"></div>
+      </div>
+      <div style="font-size:11px;color:var(--td);">3:00</div>
+    </div>
+
+    <!-- Next -->
+    <div class="card" style="display:flex;align-items:center;gap:10px;">
+      <span style="font-size:10px;color:var(--td);text-transform:uppercase;letter-spacing:1px;">Next →</span>
+      <div style="flex:1;font-size:14px;font-weight:700;">Barbell Row</div>
+      <span style="font-size:12px;color:var(--td);">4 × 6–8</span>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ AI coach</div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SCREEN 7: AI COACH CHAT (LIVE)
+═══════════════════════════════════ -->
+<div class="sec-div"><div class="sec-div-num">6</div><div class="sec-div-name">AI Coach · Live Chat</div></div>
+<div class="screen-section" style="background:var(--bg);">
+  <div style="padding:24px 20px 0;flex:1;display:flex;flex-direction:column;">
+
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <div class="ai-avatar" style="width:40px;height:40px;font-size:18px;">⚡</div>
+      <div>
+        <div class="bc" style="font-size:20px;font-weight:900;">Avyro.ai Coach</div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="width:7px;height:7px;border-radius:50%;background:var(--ec);box-shadow:0 0 5px rgba(0,240,200,.7);"></div>
+          <div style="font-size:11px;color:var(--ec);">Online · responds instantly</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="coachChat" style="display:flex;flex-direction:column;gap:12px;flex:1;padding-bottom:16px;">
+      <div style="display:flex;gap:10px;align-items:flex-start;">
+        <div class="ai-avatar">⚡</div>
+        <div class="cb-ai">What's on your mind? Ask me anything about your training, recovery, nutrition — or just tell me how you're feeling. 💪</div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <div onclick="sendCoach(this)" style="padding:8px 14px;background:var(--pill);border:1px solid var(--brd);border-radius:20px;font-size:13px;color:var(--ts);cursor:pointer;">My shoulder is tight</div>
+        <div onclick="sendCoach(this)" style="padding:8px 14px;background:var(--pill);border:1px solid var(--brd);border-radius:20px;font-size:13px;color:var(--ts);cursor:pointer;">When should I deload?</div>
+        <div onclick="sendCoach(this)" style="padding:8px 14px;background:var(--pill);border:1px solid var(--brd);border-radius:20px;font-size:13px;color:var(--ts);cursor:pointer;">I'm feeling burnt out</div>
+        <div onclick="sendCoach(this)" style="padding:8px 14px;background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.2);border-radius:20px;font-size:13px;color:var(--cp);cursor:pointer;">Make today shorter</div>
+      </div>
+    </div>
+
+    <div style="padding-bottom:24px;">
+      <div class="chat-input-bar">
+        <input id="coachInput" type="text" placeholder="Ask Avyro.ai anything..." onkeydown="if(event.key===&#39;Enter&#39;)sendCoachText()">
+        <button class="send-btn" onclick="sendCoachText()">→</button>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ progress</div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SCREEN 8: PROGRESS
+═══════════════════════════════════ -->
+<div class="sec-div"><div class="sec-div-num">7</div><div class="sec-div-name">Progress &amp; PRs</div></div>
+<div class="screen-section" style="background:var(--bg);">
+  <div style="padding:24px 20px;display:flex;flex-direction:column;gap:14px;">
+    <div class="bc" style="font-size:30px;font-weight:900;">Your Progress</div>
+
+    <!-- Stats grid -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="card" style="text-align:center;">
+        <div class="bc" style="font-size:38px;font-weight:900;color:var(--nb);">47</div>
+        <div style="font-size:11px;color:var(--td);">Total sessions</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="bc" style="font-size:38px;font-weight:900;color:var(--lm);">18🔥</div>
+        <div style="font-size:11px;color:var(--td);">Day streak</div>
+      </div>
+    </div>
+
+    <!-- PRs -->
+    <div class="card">
+      <div class="sec-label">Personal records 🏆</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:14px;">Bench Press</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="bc" style="font-size:22px;font-weight:900;color:var(--ec);">105 kg</div>
+            <span class="tag t-ec">PR ↑</span>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--brd);"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:14px;">Squat</div>
+          <div class="bc" style="font-size:22px;font-weight:900;">130 kg</div>
+        </div>
+        <div style="height:1px;background:var(--brd);"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:14px;">Deadlift</div>
+          <div class="bc" style="font-size:22px;font-weight:900;">160 kg</div>
+        </div>
+        <div style="height:1px;background:var(--brd);"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:14px;">5k Run</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="bc" style="font-size:22px;font-weight:900;color:var(--nb);">24:32</div>
+            <span class="tag t-nb">PR ↑</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Volume chart -->
+    <div class="card">
+      <div class="sec-label">Weekly volume · kg lifted</div>
+      <div style="display:flex;align-items:flex-end;gap:6px;height:80px;margin-bottom:8px;">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;">
+          <div style="flex:1;width:100%;display:flex;align-items:flex-end;"><div style="width:100%;height:45%;background:rgba(0,240,200,.2);border-radius:4px 4px 0 0;"></div></div>
+          <div style="font-size:9px;color:var(--td);">W1</div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;">
+          <div style="flex:1;width:100%;display:flex;align-items:flex-end;"><div style="width:100%;height:60%;background:rgba(0,240,200,.3);border-radius:4px 4px 0 0;"></div></div>
+          <div style="font-size:9px;color:var(--td);">W2</div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;">
+          <div style="flex:1;width:100%;display:flex;align-items:flex-end;"><div style="width:100%;height:73%;background:rgba(0,240,200,.35);border-radius:4px 4px 0 0;"></div></div>
+          <div style="font-size:9px;color:var(--td);">W3</div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;">
+          <div style="flex:1;width:100%;display:flex;align-items:flex-end;"><div style="width:100%;height:90%;background:linear-gradient(0deg,var(--ec),rgba(0,240,200,.5));border-radius:4px 4px 0 0;box-shadow:0 0 10px rgba(0,240,200,.3);"></div></div>
+          <div style="font-size:9px;color:var(--ec);font-weight:700;">W4</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--ts);">↑ 23% vs last month · <strong style="color:var(--ec);">12,400 kg</strong> this week</div>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ social</div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SCREEN 9: SOCIAL
+═══════════════════════════════════ -->
+<div class="sec-div"><div class="sec-div-num">8</div><div class="sec-div-name">Social Feed</div></div>
+<div class="screen-section" style="background:var(--bg);">
+  <div style="padding:24px 20px;display:flex;flex-direction:column;gap:14px;">
+    <div class="bc" style="font-size:30px;font-weight:900;">Social</div>
+
+    <!-- Group -->
+    <div style="background:rgba(0,200,255,.05);border:1px solid rgba(0,200,255,.15);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,rgba(0,200,255,.2),rgba(0,240,200,.15));display:flex;align-items:center;justify-content:center;font-size:20px;">🏋️</div>
+      <div style="flex:1;"><div style="font-size:14px;font-weight:700;">Oslo Lifters</div><div style="font-size:11px;color:var(--td);">8 members · 3 active this week</div></div>
+    </div>
+
+    <!-- Posts -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,rgba(255,61,138,.2),rgba(168,85,247,.15));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--lm);">M</div>
+        <div style="flex:1;"><div style="font-size:13px;font-weight:700;">Marte Hansen</div><div style="font-size:10px;color:var(--td);">2 hours ago</div></div>
+        <span class="tag t-ec">PR 🏆</span>
+      </div>
+      <div style="font-size:14px;margin-bottom:10px;line-height:1.6;">Hit a new squat PR — <strong style="color:var(--ec);">120kg!</strong> 🎉 18-day streak keeping me honest.</div>
+      <div style="display:flex;gap:16px;">
+        <div style="font-size:13px;color:var(--td);cursor:pointer;">❤️ 12</div>
+        <div style="font-size:13px;color:var(--td);cursor:pointer;">💬 3</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,rgba(0,200,255,.2),rgba(0,240,200,.15));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--nb);">T</div>
+        <div style="flex:1;"><div style="font-size:13px;font-weight:700;">Thomas Berg</div><div style="font-size:10px;color:var(--td);">5 hours ago</div></div>
+        <span class="tag t-nb">Session ✓</span>
+      </div>
+      <div style="font-size:14px;margin-bottom:10px;line-height:1.6;">Lower body done 💪 Readiness 61 but showed up anyway. 48-day streak.</div>
+      <div style="display:flex;gap:16px;">
+        <div style="font-size:13px;color:var(--td);cursor:pointer;">❤️ 8</div>
+        <div style="font-size:13px;color:var(--td);cursor:pointer;">💬 1</div>
+      </div>
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="card">
+      <div class="sec-label">Oslo Lifters · Streak 🔥</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="bc" style="font-size:16px;font-weight:900;color:var(--wa);width:22px;">1</div>
+          <div style="width:32px;height:32px;border-radius:50%;background:rgba(0,200,255,.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--nb);">T</div>
+          <div style="flex:1;font-size:13px;">Thomas Berg</div>
+          <div style="font-size:13px;font-weight:700;color:var(--lm);">48 🔥</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="bc" style="font-size:16px;font-weight:900;color:var(--ts);width:22px;">2</div>
+          <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,61,138,.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--lm);">M</div>
+          <div style="flex:1;font-size:13px;">Marte Hansen</div>
+          <div style="font-size:13px;font-weight:700;color:var(--wa);">22 🔥</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;background:rgba(0,240,200,.05);border:1px solid rgba(0,240,200,.12);border-radius:9px;padding:6px 8px;">
+          <div class="bc" style="font-size:16px;font-weight:900;color:var(--ec);width:22px;">3</div>
+          <div style="width:32px;height:32px;border-radius:50%;background:rgba(0,240,200,.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--ec);">L</div>
+          <div style="flex:1;font-size:13px;">Lars (you)</div>
+          <div style="font-size:13px;font-weight:700;color:var(--ec);">18 🔥</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ streak &amp; rewards</div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SCREEN 10: STREAK & REWARDS
+═══════════════════════════════════ -->
+<div class="sec-div"><div class="sec-div-num">9</div><div class="sec-div-name">Streak &amp; Rewards</div></div>
+<div class="screen-section" style="background:var(--bg);">
+  <div style="padding:24px 20px;display:flex;flex-direction:column;gap:14px;">
+
+    <!-- Big streak -->
+    <div style="background:linear-gradient(135deg,rgba(255,61,138,.08),rgba(255,184,0,.05));border:1px solid rgba(255,61,138,.2);border-radius:18px;padding:24px;text-align:center;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--lm),var(--wa));"></div>
+      <div style="font-size:48px;margin-bottom:6px;animation:streak-fire 2s infinite;">🔥</div>
+      <div class="bc" style="font-size:80px;font-weight:900;line-height:1;">18</div>
+      <div style="font-size:13px;color:var(--ts);letter-spacing:1px;text-transform:uppercase;margin-top:2px;">day streak</div>
+      <div style="margin-top:16px;background:rgba(0,0,0,.25);border-radius:12px;padding:12px 16px;">
+        <div style="font-size:10px;color:var(--td);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase;">Next milestone · 30 days 🏅</div>
+        <div style="height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;">
+          <div style="width:60%;height:100%;background:linear-gradient(90deg,var(--lm),var(--wa));border-radius:3px;"></div>
+        </div>
+        <div style="font-size:11px;color:var(--td);margin-top:6px;">12 more days · unlocks Gold outfit</div>
+      </div>
+    </div>
+
+    <!-- Week grid -->
+    <div class="card">
+      <div class="sec-label">This week</div>
+      <div style="display:flex;gap:6px;">
+        <div style="flex:1;height:42px;border-radius:10px;background:rgba(0,240,200,.12);border:1px solid rgba(0,240,200,.3);display:flex;align-items:center;justify-content:center;font-size:16px;">✓</div>
+        <div style="flex:1;height:42px;border-radius:10px;background:rgba(0,240,200,.12);border:1px solid rgba(0,240,200,.3);display:flex;align-items:center;justify-content:center;font-size:16px;">✓</div>
+        <div style="flex:1;height:42px;border-radius:10px;background:rgba(0,240,200,.12);border:1px solid rgba(0,240,200,.3);display:flex;align-items:center;justify-content:center;font-size:16px;">✓</div>
+        <div style="flex:1;height:42px;border-radius:10px;background:var(--pill);border:1px dashed var(--brd);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--td);">—</div>
+        <div style="flex:1;height:42px;border-radius:10px;background:linear-gradient(135deg,rgba(255,61,138,.15),rgba(255,184,0,.1));border:1px solid rgba(255,61,138,.3);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 14px rgba(255,61,138,.2);">🔥</div>
+        <div style="flex:1;height:42px;border-radius:10px;background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.15);">S</div>
+        <div style="flex:1;height:42px;border-radius:10px;background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.15);">S</div>
+      </div>
+    </div>
+
+    <!-- Rewards grid -->
+    <div class="sec-label">Rewards</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+      <div style="background:rgba(0,240,200,.05);border:1px solid rgba(0,240,200,.2);border-radius:14px;padding:14px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:6px;">🏅</div>
+        <div style="font-size:11px;font-weight:700;">10-Day</div>
+        <div style="font-size:10px;color:var(--ec);margin-top:2px;">Unlocked ✓</div>
+      </div>
+      <div style="background:rgba(0,200,255,.05);border:1px solid rgba(0,200,255,.2);border-radius:14px;padding:14px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:6px;">⭐</div>
+        <div style="font-size:11px;font-weight:700;">First PR</div>
+        <div style="font-size:10px;color:var(--nb);margin-top:2px;">Unlocked ✓</div>
+      </div>
+      <div style="background:var(--pill);border:1px solid var(--brd);border-radius:14px;padding:14px;text-align:center;opacity:.55;">
+        <div style="font-size:28px;margin-bottom:6px;">🥇</div>
+        <div style="font-size:11px;font-weight:700;">30-Day</div>
+        <div style="font-size:10px;color:var(--wa);margin-top:2px;">12 days left</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ burnout &amp; sickness</div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SCREEN 11: BURNOUT MODE
+═══════════════════════════════════ -->
+<div class="sec-div"><div class="sec-div-num">10</div><div class="sec-div-name">Burnout Mode</div></div>
+<div class="screen-section" style="background:#060910;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 300px 250px at 50% 40%,rgba(168,85,247,.07),transparent);pointer-events:none;"></div>
+  <div style="padding:24px 20px;display:flex;flex-direction:column;gap:14px;position:relative;z-index:1;">
+
+    <div style="background:linear-gradient(135deg,rgba(168,85,247,.08),rgba(255,61,138,.04));border:1px solid rgba(168,85,247,.2);border-radius:16px;padding:18px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cp),rgba(255,61,138,.5));"></div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <svg width="80" height="80">
+          <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(168,85,247,.12)" stroke-width="7"></circle>
+          <circle cx="40" cy="40" r="32" fill="none" stroke="url(#bg2)" stroke-width="7" stroke-linecap="round" stroke-dasharray="201" stroke-dashoffset="158" transform="rotate(-90 40 40)"></circle>
+          <text x="40" y="45" text-anchor="middle" fill="white" font-family="Barlow Condensed" font-weight="900" font-size="20">28</text>
+          <defs><lineargradient id="bg2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#A855F7"></stop><stop offset="100%" stop-color="#FF3D8A"></stop></lineargradient></defs>
+        </svg>
+        <div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cp);margin-bottom:3px;">Readiness · 3 days low</div>
+          <div class="bc" style="font-size:22px;font-weight:900;line-height:1;">Rest mode active.</div>
+          <div style="font-size:12px;color:var(--ts);margin-top:4px;line-height:1.6;">Body's talking. We're listening.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;align-items:flex-start;">
+      <div class="ai-avatar">⚡</div>
+      <div class="cb-ai">Sounds like a heavy week. We train to support you — not drain you. Let's keep it light today.</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.15);border-radius:13px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;">
+        <span style="font-size:24px;">🧘</span>
+        <div><div style="font-size:13px;font-weight:700;">12-min mobility flow</div><div style="font-size:11px;color:var(--td);">Gentle. Won't touch the streak.</div></div>
+      </div>
+      <div style="background:rgba(0,200,255,.05);border:1px solid rgba(0,200,255,.12);border-radius:13px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;">
+        <span style="font-size:24px;">🚶</span>
+        <div><div style="font-size:13px;font-weight:700;">15-min walk outdoors</div><div style="font-size:11px;color:var(--td);">Counts. Boosts HRV. Earns the day.</div></div>
+      </div>
+      <div class="card" style="display:flex;align-items:center;gap:12px;cursor:pointer;">
+        <span style="font-size:24px;">😴</span>
+        <div><div style="font-size:13px;font-weight:700;">Full rest day</div><div style="font-size:11px;color:var(--td);">Sometimes the best move is nothing.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ sickness mode</div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SCREEN 12: SICKNESS MODE
+═══════════════════════════════════ -->
+<div class="sec-div"><div class="sec-div-num">11</div><div class="sec-div-name">Sickness Mode</div></div>
+<div class="screen-section" style="background:#060910;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 250px 200px at 50% 40%,rgba(168,85,247,.05),transparent);pointer-events:none;"></div>
+  <div style="padding:24px 20px;display:flex;flex-direction:column;gap:14px;position:relative;z-index:1;">
+
+    <div style="background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.2);border-radius:16px;padding:18px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--cp);"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cp);">Program paused · day 2</div>
+      </div>
+      <div class="bc" style="font-size:26px;font-weight:900;margin-bottom:5px;">Get well first.</div>
+      <div style="font-size:13px;color:var(--ts);line-height:1.6;">Training can wait. Your streak is frozen — it won't count down while you're sick.</div>
+    </div>
+
+    <div style="display:flex;gap:10px;align-items:flex-start;">
+      <div class="ai-avatar">⚡</div>
+      <div class="cb-ai">I see we scheduled some aggressive recovery days. 😄<br><br>No seriously — rest. Program picks up exactly where we left off.</div>
+    </div>
+
+    <div style="background:rgba(255,184,0,.05);border:1px solid rgba(255,184,0,.15);border-radius:13px;padding:14px 16px;display:flex;align-items:center;gap:12px;">
+      <span style="font-size:28px;">🔥</span>
+      <div><div style="font-size:14px;font-weight:700;">18-day streak · frozen ❄️</div><div style="font-size:11px;color:var(--td);">Sick days don't break streaks.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="sec-label">Return checklist</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--brd);flex-shrink:0;"></div>
+          <div style="font-size:13px;color:var(--ts);">HRV back to baseline</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--brd);flex-shrink:0;"></div>
+          <div style="font-size:13px;color:var(--ts);">Resting heart rate normalised</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--brd);flex-shrink:0;"></div>
+          <div style="font-size:13px;color:var(--ts);">Symptom-free for 24h</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--pill);border:1px solid var(--brd);border-radius:14px;padding:16px;text-align:center;font-size:14px;font-weight:600;color:var(--ts);cursor:pointer;">
+      I'm feeling better → Resume program
+    </div>
+
+    <!-- Footer -->
+    <div style="text-align:center;padding:24px 0 12px;">
+      <div class="bc" style="font-size:22px;font-weight:900;margin-bottom:4px;">Avyro<span style="color:var(--nb);">.</span><span style="color:var(--ec);">ai</span></div>
+      <div style="font-size:11px;color:var(--td);">Built for people who show up.</div>
+    </div>
+  </div>
+</div>
 
 <script>
 // ═══════════════════════════════════
-// SCREEN NAMES & MAP
+// ONBOARDING CHAT
 // ═══════════════════════════════════
-const screens = [
-  { id:'s0',  name:'Loading' },
-  { id:'s1',  name:'Splash' },
-  { id:'s2',  name:'Onboarding · Chat' },
-  { id:'s3',  name:'Program Ready' },
-  { id:'s4',  name:'Today / Home' },
-  { id:'s5',  name:'Workout Session' },
-  { id:'s6',  name:'AI Coach' },
-  { id:'s7',  name:'Progress' },
-  { id:'s8',  name:'Social Feed' },
-  { id:'s9',  name:'Discover' },
-  { id:'s10', name:'Streak & Profile' },
-  { id:'s11', name:'Rewards' },
-  { id:'s12', name:'Settings' },
-  { id:'s13', name:'Notifications' },
-  { id:'s14', name:'Burnout Mode' },
-  { id:'s15', name:'Sickness Mode' },
-];
+const ONBOARDING_SYSTEM = `You are Avyro.ai's onboarding coach. You're British, direct, a little cheeky — like a great personal trainer who's also genuinely funny. Your job is to understand what the user wants to train for in 1-2 exchanges, then confirm you're building their program.
 
-let current = 's0';
+Rules:
+- Keep replies SHORT. 1-3 sentences max.
+- Be warm but not sycophantic
+- Ask ONE follow-up if needed (days/week, equipment)
+- End by saying you're building their program
+- Never use bullet points
+- Use the odd emoji but don't overdo it`;
 
-function goTo(id, back = false) {
-  if (id === current) return;
-  const prev = document.getElementById(current);
-  const next = document.getElementById(id);
-  if (!next) return;
+const COACH_SYSTEM = `You are Avyro.ai's AI performance coach. You're British, direct, cheeky — like a brilliant personal trainer. The user (Lars) has readiness 87 today, HRV 68ms, slept 7.4h, is on an 18-day streak, training upper body hypertrophy today.
 
-  prev.classList.remove('active');
-  next.classList.add('active');
-  if (back) next.classList.add('back-anim');
-  setTimeout(() => next.classList.remove('back-anim'), 300);
+Rules:
+- Keep replies SHORT. 2-4 sentences max.
+- Be practical and specific
+- Adapt advice to their data
+- Occasional dry humour is good
+- Never guilt trip or shame
+- Never use bullet points`;
 
-  current = id;
+let onboardingHistory = [];
+let coachHistory = [];
 
-  // Update demo nav buttons
-  document.querySelectorAll('.demo-btn').forEach(btn => {
-    btn.classList.toggle('on', btn.dataset.screen === current);
+async function callClaude(system, messages) {
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1000,
+      system: system,
+      messages: messages
+    })
   });
-
-  // Scroll active button into view
-  const activeBtn = document.querySelector('.demo-btn[data-screen="' + id + '"]');
-  if (activeBtn) activeBtn.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
-
-  // Update screen name label
-  const s = screens.find(x => x.id === id);
-  document.getElementById('screenName').textContent = s ? s.name : id;
+  const data = await response.json();
+  return data.content?.[0]?.text || "Something went wrong. Try again.";
 }
 
-// Auto-advance loading → splash after 3.5s with fade
-setTimeout(() => { 
-  if (current === 's0') {
-    const prev = document.getElementById('s0');
-    prev.style.transition = 'opacity 0.8s ease';
-    prev.style.opacity = '0';
-    setTimeout(() => goTo('s1'), 800);
+function appendMessage(containerId, role, text) {
+  const container = document.getElementById(containerId);
+  const div = document.createElement('div');
+  div.style.cssText = 'display:flex;gap:10px;align-items:flex-start;animation:fade-in .35s ease both;';
+
+  if (role === 'ai') {
+    div.innerHTML = `<div class="ai-avatar">⚡</div><div class="cb-ai">${text.replace(/\n/g,'<br>')}</div>`;
+  } else {
+    div.style.justifyContent = 'flex-end';
+    div.innerHTML = `<div class="cb-user">${text}</div>`;
   }
-}, 3000);
-
-// Initial screen name
-document.getElementById('screenName').textContent = 'Loading';
-
-// Mobile drawer
-function toggleDrawer() {
-  const drawer = document.getElementById('mobDrawer');
-  const isOpen = drawer.style.display === 'flex';
-  drawer.style.display = isOpen ? 'none' : 'flex';
-  // Highlight current screen
-  document.querySelectorAll('.mob-screen-btn').forEach(btn => {
-    btn.classList.toggle('on', btn.dataset.screen === current);
-  });
+  container.appendChild(div);
+  div.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  return div;
 }
 
-function closeDrawer(e) {
-  if (e.target === document.getElementById('mobDrawer')) {
-    document.getElementById('mobDrawer').style.display = 'none';
+function showTyping(containerId) {
+  const container = document.getElementById(containerId);
+  const div = document.createElement('div');
+  div.style.cssText = 'display:flex;gap:10px;align-items:flex-start;';
+  div.id = containerId + '-typing';
+  div.innerHTML = `<div class="ai-avatar">⚡</div><div class="cb-ai"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+  container.appendChild(div);
+  div.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function removeTyping(containerId) {
+  const el = document.getElementById(containerId + '-typing');
+  if (el) el.remove();
+}
+
+async function sendOnboarding(el) {
+  const text = el.textContent.replace(/['"]/g, '');
+  // Remove suggestion chips
+  el.parentElement.remove();
+  await sendOnboardingMsg(text);
+}
+
+async function sendOnboardingText() {
+  const input = document.getElementById('onboardingInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  await sendOnboardingMsg(text);
+}
+
+async function sendOnboardingMsg(text) {
+  appendMessage('onboardingChat', 'user', text);
+  onboardingHistory.push({ role:'user', content: text });
+  showTyping('onboardingChat');
+  try {
+    const reply = await callClaude(ONBOARDING_SYSTEM, onboardingHistory);
+    removeTyping('onboardingChat');
+    appendMessage('onboardingChat', 'ai', reply);
+    onboardingHistory.push({ role:'assistant', content: reply });
+  } catch(e) {
+    removeTyping('onboardingChat');
+    appendMessage('onboardingChat', 'ai', "Hmm, something went wrong. Give me a sec. 🙃");
   }
 }
 
-function mobGoTo(id) {
-  document.getElementById('mobDrawer').style.display = 'none';
-  goTo(id);
+// ═══════════════════════════════════
+// COACH CHAT
+// ═══════════════════════════════════
+async function sendCoach(el) {
+  const text = el.textContent;
+  await sendCoachMsg(text);
 }
+
+async function sendCoachText() {
+  const input = document.getElementById('coachInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  await sendCoachMsg(text);
+}
+
+async function sendCoachMsg(text) {
+  // Remove suggestion chips if present
+  const chips = document.querySelector('#coachChat .suggestion-chips');
+  if (chips) chips.remove();
+
+  appendMessage('coachChat', 'user', text);
+  coachHistory.push({ role:'user', content: text });
+  showTyping('coachChat');
+  try {
+    const reply = await callClaude(COACH_SYSTEM, coachHistory);
+    removeTyping('coachChat');
+    appendMessage('coachChat', 'ai', reply);
+    coachHistory.push({ role:'assistant', content: reply });
+  } catch(e) {
+    removeTyping('coachChat');
+    appendMessage('coachChat', 'ai', "Lost the connection there. Try again. 🙃");
+  }
+}
+
+// Mark suggestion chip containers
+document.querySelectorAll('#coachChat .suggestion-chips').forEach(el => {
+  el.classList.add('suggestion-chips');
+});
 </script>
 
 
