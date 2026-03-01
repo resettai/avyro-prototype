@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0055)file:///Users/leifmartinklakkken/Downloads/index_6.html -->
+<!-- saved from url=(0055)file:///Users/leifmartinklakkken/Downloads/index_8.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -424,7 +424,7 @@ html, body {
 
     <!-- Progress bar -->
     <div style="width:110px;height:2px;background:rgba(255,255,255,.07);border-radius:1px;overflow:hidden;margin:0 auto;animation:fadeUp .8s .45s ease both;">
-      <div id="loadProg" style="height:100%;width:0%;background:linear-gradient(90deg,var(--cyan),var(--purple));border-radius:1px;animation:progFill 2.8s ease-in-out forwards;"></div>
+      <div id="loadProg" style="height: 100%; width: 100%; background: linear-gradient(90deg,var(--cyan),var(--purple)); border-radius: 1px; transition: width 0.1s linear;"></div>
     </div>
     <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:10px;animation:blink 1.4s infinite;">Waking up...</div>
   </div>
@@ -1079,10 +1079,19 @@ function showMain() {
   goTab('today');
 }
 
-// Loading → splash
-setTimeout(() => {
-  showScreen('screen-splash');
-}, 3200);
+// Loading → splash — robust for mobile Chrome
+(function() {
+  const prog = document.getElementById('loadProg');
+  let pct = 0;
+  const interval = setInterval(() => {
+    pct += 2.2;
+    if (prog) prog.style.width = Math.min(pct, 100) + '%';
+    if (pct >= 100) {
+      clearInterval(interval);
+      setTimeout(() => showScreen('screen-splash'), 300);
+    }
+  }, 60); // ~2.7s total
+})();
 
 // Social tabs
 function setSocialTab(tab) {
