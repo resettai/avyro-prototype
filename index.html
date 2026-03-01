@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0053)file:///Users/leifmartinklakkken/Downloads/index.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Avyro.ai — Interactive Prototype</title>
 <style>
@@ -63,6 +63,10 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
 @keyframes screen-in {
   from { opacity:0; transform:translateX(18px); }
   to   { opacity:1; transform:translateX(0); }
+}
+@keyframes screen-fade {
+  from { opacity:0; }
+  to   { opacity:1; }
 }
 @keyframes screen-back {
   from { opacity:0; transform:translateX(-18px); }
@@ -162,7 +166,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
   100% { transform:translate(-50%,-50%) scale(1.9); opacity:0; }
 }
 @keyframes bootglow { 0%{opacity:.5} 100%{opacity:1} }
-@keyframes prog-wave { 0%{width:15%} 50%{width:85%} 100%{width:15%} }
+@keyframes prog-wave { 0%{width:5%} 80%{width:90%} 100%{width:100%} }
 @keyframes blink { 0%,100%{opacity:.25} 50%{opacity:1} }
 @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.6)} }
 @keyframes streak-fire { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
@@ -222,9 +226,9 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
 
 <div class="outer">
   <!-- Screen map nav -->
-  <div class="screen-map" id="screenMap"><div class="sm-item" title="Loading"></div><div class="sm-item on" title="Splash"></div><div class="sm-item" title="Onboarding · Chat"></div><div class="sm-item" title="Program Ready"></div><div class="sm-item" title="Today / Home"></div><div class="sm-item" title="Workout Session"></div><div class="sm-item" title="AI Coach"></div><div class="sm-item" title="Progress"></div><div class="sm-item" title="Social Feed"></div><div class="sm-item" title="Discover"></div><div class="sm-item" title="Streak &amp; Profile"></div><div class="sm-item" title="Rewards"></div><div class="sm-item" title="Settings"></div><div class="sm-item" title="Notifications"></div><div class="sm-item" title="Burnout Mode"></div><div class="sm-item" title="Sickness Mode"></div></div>
+  <div class="screen-map" id="screenMap"></div>
   <!-- Screen name -->
-  <div class="screen-name" id="screenName">Splash</div>
+  <div class="screen-name" id="screenName">Loading</div>
 
   <div class="phone-wrap">
     <div class="phone-shell" id="phone">
@@ -237,7 +241,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
       <!-- ═══════════════════════
            SCREEN 0: LOADING
       ═══════════════════════ -->
-      <div class="screen" id="s0" data-name="Loading">
+      <div class="screen active" id="s0" data-name="Loading">
         <div style="position:absolute;inset:0;background:#070A13;">
           <div style="position:absolute;inset:0;background:radial-gradient(ellipse 300px 240px at 50% 44%,rgba(0,200,255,.09),transparent),radial-gradient(ellipse 200px 200px at 30% 70%,rgba(168,85,247,.06),transparent);animation:bootglow 2s ease-in-out infinite alternate;"></div>
           <!-- Rings -->
@@ -249,7 +253,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             <div class="bc" style="font-size:52px;font-weight:900;letter-spacing:4px;color:white;text-shadow:0 0 40px rgba(0,200,255,.4);">AVYRO<span style="color:#00C8FF;text-shadow:0 0 28px rgba(0,200,255,.8);">.</span><span style="color:#00F0C8;text-shadow:0 0 28px rgba(0,240,200,.8);">AI</span></div>
             <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:48px;">AI Performance Coach</div>
             <div style="width:100px;height:2px;background:rgba(255,255,255,.07);border-radius:1px;overflow:hidden;">
-              <div style="height:100%;background:linear-gradient(90deg,#00C8FF,#A855F7);border-radius:1px;box-shadow:0 0 8px rgba(0,200,255,.5);animation:prog-wave 2s ease-in-out infinite;"></div>
+              <div style="height:100%;background:linear-gradient(90deg,#00C8FF,#A855F7);border-radius:1px;box-shadow:0 0 8px rgba(0,200,255,.5);animation:prog-wave 3.2s ease-in-out forwards;"></div>
             </div>
             <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.2);margin-top:8px;animation:blink 1.5s infinite;">Waking up...</div>
           </div>
@@ -259,7 +263,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
       <!-- ═══════════════════════
            SCREEN 1: SPLASH
       ═══════════════════════ -->
-      <div class="screen active" id="s1" data-name="Splash">
+      <div class="screen" id="s1" data-name="Splash">
         <div style="position:absolute;inset:0;background:var(--scr);"></div>
         <div style="position:absolute;inset:0;background:radial-gradient(ellipse 220px 180px at 50% 28%,rgba(0,240,200,.07),transparent),radial-gradient(ellipse 200px 160px at 20% 80%,rgba(0,200,255,.05),transparent);"></div>
         <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:60px 28px 28px;gap:0;">
@@ -294,8 +298,8 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             </div>
           </div>
 
-          <button class="btn-primary" onclick="goTo(&#39;s2&#39;)">LET'S GO →</button>
-          <div class="btn-ghost" onclick="goTo(&#39;s4&#39;)">Already have an account · Sign in</div>
+          <button class="btn-primary" onclick="goTo('s2')">LET'S GO →</button>
+          <div class="btn-ghost" onclick="goTo('s4')">Already have an account · Sign in</div>
         </div>
       </div>
 
@@ -320,9 +324,9 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             <div class="card" style="padding:11px 13px;">
               <div class="sec-label">Say something like...</div>
               <div style="display:flex;flex-direction:column;gap:5px;">
-                <div onclick="goTo(&#39;s3&#39;)" style="font-size:11px;color:var(--ts);padding:6px 10px;background:var(--pill);border-radius:8px;border-left:2px solid var(--ec);cursor:pointer;">"I want to run a half marathon in June"</div>
-                <div onclick="goTo(&#39;s3&#39;)" style="font-size:11px;color:var(--ts);padding:6px 10px;background:var(--pill);border-radius:8px;border-left:2px solid var(--lm);cursor:pointer;">"I lift 3x a week and want to get bigger"</div>
-                <div onclick="goTo(&#39;s3&#39;)" style="font-size:11px;color:var(--ts);padding:6px 10px;background:var(--pill);border-radius:8px;border-left:2px solid var(--al);cursor:pointer;">"I play golf weekends, desk job all week"</div>
+                <div onclick="goTo('s3')" style="font-size:11px;color:var(--ts);padding:6px 10px;background:var(--pill);border-radius:8px;border-left:2px solid var(--ec);cursor:pointer;">"I want to run a half marathon in June"</div>
+                <div onclick="goTo('s3')" style="font-size:11px;color:var(--ts);padding:6px 10px;background:var(--pill);border-radius:8px;border-left:2px solid var(--lm);cursor:pointer;">"I lift 3x a week and want to get bigger"</div>
+                <div onclick="goTo('s3')" style="font-size:11px;color:var(--ts);padding:6px 10px;background:var(--pill);border-radius:8px;border-left:2px solid var(--al);cursor:pointer;">"I play golf weekends, desk job all week"</div>
               </div>
             </div>
 
@@ -343,7 +347,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
                 </div>
               </div>
               <!-- Input bar -->
-              <div onclick="goTo(&#39;s3&#39;)" style="background:var(--pill);border:1px solid var(--brd2);border-radius:24px;padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <div onclick="goTo('s3')" style="background:var(--pill);border:1px solid var(--brd2);border-radius:24px;padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;">
                 <div style="flex:1;font-size:12px;color:var(--td);">Type or speak...</div>
                 <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--lm),var(--cp));display:flex;align-items:center;justify-content:center;font-size:15px;animation:mic-pulse 2s infinite;box-shadow:0 0 10px rgba(255,61,138,.3);">🎤</div>
               </div>
@@ -404,7 +408,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             <div style="font-size:11px;color:var(--td);line-height:1.5;">Want changes? Days, exercises, intensity — <strong style="color:var(--ts);">Settings → Program</strong> anytime.</div>
           </div>
 
-          <button class="btn-primary" onclick="goTo(&#39;s4&#39;)">START TRAINING →</button>
+          <button class="btn-primary" onclick="goTo('s4')">START TRAINING →</button>
         </div>
       </div>
 
@@ -421,7 +425,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
                 <div class="bc" style="font-size:24px;font-weight:900;line-height:1;">Good morning, Lars 👋</div>
                 <div style="font-size:12px;color:var(--ts);margin-top:2px;">Tuesday · 14 January</div>
               </div>
-              <div onclick="goTo(&#39;s13&#39;)" style="position:relative;cursor:pointer;">
+              <div onclick="goTo('s13')" style="position:relative;cursor:pointer;">
                 <div class="a-icon" style="width:38px;height:38px;border-radius:11px;"><span class="a" style="font-size:18px;">A</span></div>
                 <div style="position:absolute;top:-3px;right:-3px;width:10px;height:10px;border-radius:50%;background:var(--lm);border:2px solid var(--scr);"></div>
               </div>
@@ -433,14 +437,16 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
               <div style="display:flex;align-items:center;gap:16px;">
                 <div style="position:relative;">
                   <svg width="80" height="80">
-                    <circle cx="40" cy="40" r="33" fill="none" stroke="rgba(0,240,200,.08)" stroke-width="7"></circle>
-                    <circle cx="40" cy="40" r="33" fill="none" stroke="url(#rg)" stroke-width="7" stroke-linecap="round" stroke-dasharray="207" stroke-dashoffset="40" transform="rotate(-90 40 40)"></circle>
+                    <circle cx="40" cy="40" r="33" fill="none" stroke="rgba(0,240,200,.08)" stroke-width="7"/>
+                    <circle cx="40" cy="40" r="33" fill="none" stroke="url(#rg)" stroke-width="7"
+                      stroke-linecap="round" stroke-dasharray="207" stroke-dashoffset="40"
+                      transform="rotate(-90 40 40)"/>
                     <text x="40" y="44" text-anchor="middle" fill="white" font-family="Barlow Condensed" font-weight="900" font-size="22">87</text>
                     <defs>
-                      <lineargradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#00F0C8"></stop>
-                        <stop offset="100%" stop-color="#00C8FF"></stop>
-                      </lineargradient>
+                      <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#00F0C8"/>
+                        <stop offset="100%" stop-color="#00C8FF"/>
+                      </linearGradient>
                     </defs>
                   </svg>
                 </div>
@@ -473,7 +479,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             </div>
 
             <!-- Today's workout -->
-            <div onclick="goTo(&#39;s5&#39;)" style="background:linear-gradient(135deg,rgba(255,61,138,.08),rgba(168,85,247,.05));border:1px solid rgba(255,61,138,.2);border-radius:14px;padding:14px;margin-bottom:12px;cursor:pointer;position:relative;overflow:hidden;">
+            <div onclick="goTo('s5')" style="background:linear-gradient(135deg,rgba(255,61,138,.08),rgba(168,85,247,.05));border:1px solid rgba(255,61,138,.2);border-radius:14px;padding:14px;margin-bottom:12px;cursor:pointer;position:relative;overflow:hidden;">
               <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--lm),var(--cp));"></div>
               <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
                 <div>
@@ -490,7 +496,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             </div>
 
             <!-- Streak mini -->
-            <div onclick="goTo(&#39;s10&#39;)" style="background:rgba(255,61,138,.06);border:1px solid rgba(255,61,138,.15);border-radius:13px;padding:13px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;margin-bottom:12px;">
+            <div onclick="goTo('s10')" style="background:rgba(255,61,138,.06);border:1px solid rgba(255,61,138,.15);border-radius:13px;padding:13px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;margin-bottom:12px;">
               <div style="font-size:30px;animation:streak-fire 2s infinite;">🔥</div>
               <div>
                 <div class="bc" style="font-size:20px;font-weight:900;color:var(--text);">18-day streak</div>
@@ -501,19 +507,19 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
 
             <!-- Quick links -->
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:80px;">
-              <div onclick="goTo(&#39;s6&#39;)" class="card" style="cursor:pointer;display:flex;align-items:center;gap:8px;">
+              <div onclick="goTo('s6')" class="card" style="cursor:pointer;display:flex;align-items:center;gap:8px;">
                 <span style="font-size:18px;">⚡</span>
                 <div><div style="font-size:11px;font-weight:700;">AI Coach</div><div style="font-size:9px;color:var(--td);">Ask anything</div></div>
               </div>
-              <div onclick="goTo(&#39;s7&#39;)" class="card" style="cursor:pointer;display:flex;align-items:center;gap:8px;">
+              <div onclick="goTo('s7')" class="card" style="cursor:pointer;display:flex;align-items:center;gap:8px;">
                 <span style="font-size:18px;">📊</span>
-                <div><div style="font-size:11px;font-weight:700;">Progress</div><div style="font-size:9px;color:var(--td);">Stats &amp; PRs</div></div>
+                <div><div style="font-size:11px;font-weight:700;">Progress</div><div style="font-size:9px;color:var(--td);">Stats & PRs</div></div>
               </div>
-              <div onclick="goTo(&#39;s8&#39;)" class="card" style="cursor:pointer;display:flex;align-items:center;gap:8px;">
+              <div onclick="goTo('s8')" class="card" style="cursor:pointer;display:flex;align-items:center;gap:8px;">
                 <span style="font-size:18px;">👥</span>
                 <div><div style="font-size:11px;font-weight:700;">Social</div><div style="font-size:9px;color:var(--td);">Group feed</div></div>
               </div>
-              <div onclick="goTo(&#39;s14&#39;)" class="card" style="cursor:pointer;display:flex;align-items:center;gap:8px;border-color:rgba(168,85,247,.2);background:rgba(168,85,247,.04);">
+              <div onclick="goTo('s14')" class="card" style="cursor:pointer;display:flex;align-items:center;gap:8px;border-color:rgba(168,85,247,.2);background:rgba(168,85,247,.04);">
                 <span style="font-size:18px;">😴</span>
                 <div><div style="font-size:11px;font-weight:700;color:var(--cp);">Burnout mode</div><div style="font-size:9px;color:var(--td);">See demo</div></div>
               </div>
@@ -522,11 +528,11 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
 
           <!-- Bottom nav -->
           <div class="bnav">
-            <div class="bni on" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
+            <div class="bni on" onclick="goTo('s4')"><span class="ico">⚡</span><span class="lbl">Today</span></div>
+            <div class="bni" onclick="goTo('s7')"><span class="ico">📊</span><span class="lbl">Progress</span></div>
+            <div class="bni" onclick="goTo('s10')"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
+            <div class="bni" onclick="goTo('s8')"><span class="ico">👥</span><span class="lbl">Social</span></div>
+            <div class="bni" onclick="goTo('s12')"><span class="ico">⚙️</span><span class="lbl">More</span></div>
           </div>
         </div>
       </div>
@@ -540,12 +546,12 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
 
             <!-- Back + title -->
             <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-shrink:0;">
-              <div onclick="goTo(&#39;s4&#39;)" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
+              <div onclick="goTo('s4')" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
               <div>
                 <div class="bc" style="font-size:18px;font-weight:900;">Upper Body Hypertrophy</div>
                 <div style="font-size:10px;color:var(--td);">Exercise 2 of 8 · 34 min elapsed</div>
               </div>
-              <div onclick="goTo(&#39;s6&#39;)" style="margin-left:auto;cursor:pointer;" title="Ask coach">
+              <div onclick="goTo('s6')" style="margin-left:auto;cursor:pointer;" title="Ask coach">
                 <div class="ai-avatar" style="width:32px;height:32px;">⚡</div>
               </div>
             </div>
@@ -591,7 +597,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
                   <div style="font-size:9px;color:var(--td);margin-bottom:2px;">kg</div>
                   <div class="bc" style="font-size:24px;font-weight:900;color:var(--text);">80</div>
                 </div>
-                <button onclick="goTo(&#39;s5&#39;)" style="flex:1;padding:12px;background:linear-gradient(135deg,var(--ec),var(--nb));border:none;border-radius:10px;font-family:&#39;Barlow Condensed&#39;,sans-serif;font-weight:900;font-size:14px;color:#07090F;cursor:pointer;letter-spacing:1px;">LOG ✓</button>
+                <button onclick="goTo('s5')" style="flex:1;padding:12px;background:linear-gradient(135deg,var(--ec),var(--nb));border:none;border-radius:10px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:14px;color:#07090F;cursor:pointer;letter-spacing:1px;">LOG ✓</button>
               </div>
             </div>
 
@@ -617,11 +623,11 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
 
           <!-- Bottom nav -->
           <div class="bnav">
-            <div class="bni on" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
+            <div class="bni on" onclick="goTo('s4')"><span class="ico">⚡</span><span class="lbl">Today</span></div>
+            <div class="bni" onclick="goTo('s7')"><span class="ico">📊</span><span class="lbl">Progress</span></div>
+            <div class="bni" onclick="goTo('s10')"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
+            <div class="bni" onclick="goTo('s8')"><span class="ico">👥</span><span class="lbl">Social</span></div>
+            <div class="bni" onclick="goTo('s12')"><span class="ico">⚙️</span><span class="lbl">More</span></div>
           </div>
         </div>
       </div>
@@ -633,7 +639,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
         <div style="background:var(--scr);display:flex;flex-direction:column;height:100%;">
           <div style="padding:52px 20px 0;flex-shrink:0;">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-              <div onclick="goTo(&#39;s4&#39;)" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
+              <div onclick="goTo('s4')" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
               <div class="ai-avatar" style="width:36px;height:36px;font-size:16px;">⚡</div>
               <div>
                 <div class="bc" style="font-size:18px;font-weight:900;">Avyro.ai Coach</div>
@@ -666,10 +672,10 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             <div style="margin-top:4px;">
               <div class="sec-label">Quick asks</div>
               <div style="display:flex;flex-wrap:wrap;gap:6px;">
-                <div onclick="goTo(&#39;s6&#39;)" style="background:var(--pill);border:1px solid var(--brd);border-radius:20px;padding:6px 12px;font-size:11px;color:var(--ts);cursor:pointer;">Swap an exercise</div>
-                <div onclick="goTo(&#39;s6&#39;)" style="background:var(--pill);border:1px solid var(--brd);border-radius:20px;padding:6px 12px;font-size:11px;color:var(--ts);cursor:pointer;">I'm feeling tired</div>
-                <div onclick="goTo(&#39;s6&#39;)" style="background:var(--pill);border:1px solid var(--brd);border-radius:20px;padding:6px 12px;font-size:11px;color:var(--ts);cursor:pointer;">Make it shorter</div>
-                <div onclick="goTo(&#39;s14&#39;)" style="background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.2);border-radius:20px;padding:6px 12px;font-size:11px;color:var(--cp);cursor:pointer;">I'm burnt out</div>
+                <div onclick="goTo('s6')" style="background:var(--pill);border:1px solid var(--brd);border-radius:20px;padding:6px 12px;font-size:11px;color:var(--ts);cursor:pointer;">Swap an exercise</div>
+                <div onclick="goTo('s6')" style="background:var(--pill);border:1px solid var(--brd);border-radius:20px;padding:6px 12px;font-size:11px;color:var(--ts);cursor:pointer;">I'm feeling tired</div>
+                <div onclick="goTo('s6')" style="background:var(--pill);border:1px solid var(--brd);border-radius:20px;padding:6px 12px;font-size:11px;color:var(--ts);cursor:pointer;">Make it shorter</div>
+                <div onclick="goTo('s14')" style="background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.2);border-radius:20px;padding:6px 12px;font-size:11px;color:var(--cp);cursor:pointer;">I'm burnt out</div>
               </div>
             </div>
             <div style="padding-bottom:60px;"></div>
@@ -683,11 +689,11 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             </div>
           </div>
           <div class="bnav">
-            <div class="bni on" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
+            <div class="bni on" onclick="goTo('s4')"><span class="ico">⚡</span><span class="lbl">Today</span></div>
+            <div class="bni" onclick="goTo('s7')"><span class="ico">📊</span><span class="lbl">Progress</span></div>
+            <div class="bni" onclick="goTo('s10')"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
+            <div class="bni" onclick="goTo('s8')"><span class="ico">👥</span><span class="lbl">Social</span></div>
+            <div class="bni" onclick="goTo('s12')"><span class="ico">⚙️</span><span class="lbl">More</span></div>
           </div>
         </div>
       </div>
@@ -789,11 +795,11 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             </div>
           </div>
           <div class="bnav">
-            <div class="bni" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni on" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
+            <div class="bni" onclick="goTo('s4')"><span class="ico">⚡</span><span class="lbl">Today</span></div>
+            <div class="bni on" onclick="goTo('s7')"><span class="ico">📊</span><span class="lbl">Progress</span></div>
+            <div class="bni" onclick="goTo('s10')"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
+            <div class="bni" onclick="goTo('s8')"><span class="ico">👥</span><span class="lbl">Social</span></div>
+            <div class="bni" onclick="goTo('s12')"><span class="ico">⚙️</span><span class="lbl">More</span></div>
           </div>
         </div>
       </div>
@@ -806,7 +812,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
           <div class="scroll" style="padding:52px 20px 80px;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
               <div class="bc" style="font-size:24px;font-weight:900;">Social</div>
-              <div onclick="goTo(&#39;s9&#39;)" style="font-size:11px;color:var(--nb);font-weight:700;cursor:pointer;">Discover →</div>
+              <div onclick="goTo('s9')" style="font-size:11px;color:var(--nb);font-weight:700;cursor:pointer;">Discover →</div>
             </div>
 
             <!-- Group -->
@@ -825,7 +831,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             <!-- Post 1 - PR -->
             <div class="card" style="margin-bottom:10px;">
               <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;">
-                <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,rgba(255,61,138,.2),rgba(168,85,247,.15));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--lm);flex-shrink:0;">M</div>
+                <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,rgba(255,61,138,.2),rgba(168,85,247,.15));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:'Barlow Condensed',sans-serif;color:var(--lm);flex-shrink:0;">M</div>
                 <div style="flex:1;"><div style="font-size:12px;font-weight:700;">Marte Hansen</div><div style="font-size:10px;color:var(--td);">2 hours ago</div></div>
                 <span class="tag t-ec">PR 🏆</span>
               </div>
@@ -840,7 +846,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             <!-- Post 2 - session -->
             <div class="card" style="margin-bottom:10px;">
               <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;">
-                <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,rgba(0,200,255,.2),rgba(0,240,200,.15));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--nb);flex-shrink:0;">T</div>
+                <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,rgba(0,200,255,.2),rgba(0,240,200,.15));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:'Barlow Condensed',sans-serif;color:var(--nb);flex-shrink:0;">T</div>
                 <div style="flex:1;"><div style="font-size:12px;font-weight:700;">Thomas Berg</div><div style="font-size:10px;color:var(--td);">5 hours ago</div></div>
                 <span class="tag t-nb">Session ✓</span>
               </div>
@@ -858,19 +864,19 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
               <div style="display:flex;flex-direction:column;gap:8px;">
                 <div style="display:flex;align-items:center;gap:9px;">
                   <div class="bc" style="font-size:14px;font-weight:900;color:var(--wa);width:20px;text-align:center;">1</div>
-                  <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,rgba(0,200,255,.2),rgba(0,240,200,.1));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--nb);">T</div>
+                  <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,rgba(0,200,255,.2),rgba(0,240,200,.1));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;font-family:'Barlow Condensed',sans-serif;color:var(--nb);">T</div>
                   <div style="flex:1;font-size:12px;">Thomas Berg</div>
                   <div style="font-size:12px;font-weight:700;color:var(--lm);">48 🔥</div>
                 </div>
                 <div style="display:flex;align-items:center;gap:9px;">
                   <div class="bc" style="font-size:14px;font-weight:900;color:var(--ts);width:20px;text-align:center;">2</div>
-                  <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,rgba(255,61,138,.2),rgba(168,85,247,.1));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--lm);">M</div>
+                  <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,rgba(255,61,138,.2),rgba(168,85,247,.1));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;font-family:'Barlow Condensed',sans-serif;color:var(--lm);">M</div>
                   <div style="flex:1;font-size:12px;">Marte Hansen</div>
                   <div style="font-size:12px;font-weight:700;color:var(--wa);">22 🔥</div>
                 </div>
                 <div style="display:flex;align-items:center;gap:9px;background:rgba(0,240,200,.05);border:1px solid rgba(0,240,200,.12);border-radius:8px;padding:4px 6px;">
                   <div class="bc" style="font-size:14px;font-weight:900;color:var(--ec);width:20px;text-align:center;">3</div>
-                  <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,rgba(0,240,200,.2),rgba(0,200,255,.1));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--ec);">L</div>
+                  <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,rgba(0,240,200,.2),rgba(0,200,255,.1));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;font-family:'Barlow Condensed',sans-serif;color:var(--ec);">L</div>
                   <div style="flex:1;font-size:12px;">Lars (you)</div>
                   <div style="font-size:12px;font-weight:700;color:var(--ec);">18 🔥</div>
                 </div>
@@ -878,11 +884,11 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             </div>
           </div>
           <div class="bnav">
-            <div class="bni" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni on" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
+            <div class="bni" onclick="goTo('s4')"><span class="ico">⚡</span><span class="lbl">Today</span></div>
+            <div class="bni" onclick="goTo('s7')"><span class="ico">📊</span><span class="lbl">Progress</span></div>
+            <div class="bni" onclick="goTo('s10')"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
+            <div class="bni on" onclick="goTo('s8')"><span class="ico">👥</span><span class="lbl">Social</span></div>
+            <div class="bni" onclick="goTo('s12')"><span class="ico">⚙️</span><span class="lbl">More</span></div>
           </div>
         </div>
       </div>
@@ -894,7 +900,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
         <div style="background:var(--scr);display:flex;flex-direction:column;height:100%;">
           <div class="scroll" style="padding:52px 20px 80px;">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-              <div onclick="goTo(&#39;s8&#39;)" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
+              <div onclick="goTo('s8')" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
               <div class="bc" style="font-size:24px;font-weight:900;">Discover</div>
             </div>
 
@@ -908,7 +914,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             <div class="sec-label">People near you</div>
             <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
               <div class="card" style="display:flex;align-items:center;gap:10px;">
-                <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,rgba(255,184,0,.2),rgba(200,255,0,.1));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--wa);">K</div>
+                <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,rgba(255,184,0,.2),rgba(200,255,0,.1));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:'Barlow Condensed',sans-serif;color:var(--wa);">K</div>
                 <div style="flex:1;">
                   <div style="font-size:12px;font-weight:700;">Kristin Olsen</div>
                   <div style="font-size:10px;color:var(--td);">30-day streak · Strength · 0.8km away</div>
@@ -916,7 +922,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
                 <div style="padding:6px 12px;background:rgba(0,200,255,.1);border:1px solid rgba(0,200,255,.25);border-radius:20px;font-size:10px;font-weight:700;color:var(--nb);cursor:pointer;">Follow</div>
               </div>
               <div class="card" style="display:flex;align-items:center;gap:10px;">
-                <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,rgba(168,85,247,.2),rgba(255,61,138,.1));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--cp);">E</div>
+                <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,rgba(168,85,247,.2),rgba(255,61,138,.1));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:'Barlow Condensed',sans-serif;color:var(--cp);">E</div>
                 <div style="flex:1;">
                   <div style="font-size:12px;font-weight:700;">Erik Johansen</div>
                   <div style="font-size:10px;color:var(--td);">12-day streak · Running · 1.2km away</div>
@@ -960,11 +966,11 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             </div>
           </div>
           <div class="bnav">
-            <div class="bni" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni on" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
+            <div class="bni" onclick="goTo('s4')"><span class="ico">⚡</span><span class="lbl">Today</span></div>
+            <div class="bni" onclick="goTo('s7')"><span class="ico">📊</span><span class="lbl">Progress</span></div>
+            <div class="bni" onclick="goTo('s10')"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
+            <div class="bni on" onclick="goTo('s8')"><span class="ico">👥</span><span class="lbl">Social</span></div>
+            <div class="bni" onclick="goTo('s12')"><span class="ico">⚙️</span><span class="lbl">More</span></div>
           </div>
         </div>
       </div>
@@ -978,13 +984,13 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             <!-- Profile header -->
             <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
               <div style="position:relative;">
-                <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,rgba(0,240,200,.2),rgba(0,200,255,.15));border:3px solid var(--ec);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;font-family:&#39;Barlow Condensed&#39;,sans-serif;color:var(--ec);">L</div>
+                <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,rgba(0,240,200,.2),rgba(0,200,255,.15));border:3px solid var(--ec);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;font-family:'Barlow Condensed',sans-serif;color:var(--ec);">L</div>
                 <div style="position:absolute;bottom:-2px;right:-2px;width:20px;height:20px;border-radius:50%;background:var(--ec);border:2px solid var(--scr);display:flex;align-items:center;justify-content:center;font-size:10px;">✓</div>
               </div>
               <div>
                 <div class="bc" style="font-size:20px;font-weight:900;">Lars Eriksen</div>
                 <div style="font-size:11px;color:var(--ts);">@lars · Strength + 5k goal</div>
-                <div onclick="goTo(&#39;s11&#39;)" style="font-size:11px;color:var(--nb);font-weight:700;margin-top:2px;cursor:pointer;">View rewards →</div>
+                <div onclick="goTo('s11')" style="font-size:11px;color:var(--nb);font-weight:700;margin-top:2px;cursor:pointer;">View rewards →</div>
               </div>
             </div>
 
@@ -1027,7 +1033,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
                 <div style="flex:1;"><div style="font-size:12px;font-weight:700;">10-day streak</div><div style="font-size:10px;color:var(--td);">Cyan outfit unlocked</div></div>
                 <div style="font-size:10px;color:var(--ec);">Jan 5</div>
               </div>
-              <div onclick="goTo(&#39;s11&#39;)" style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:rgba(255,184,0,.04);border:1px solid rgba(255,184,0,.12);border-radius:10px;cursor:pointer;">
+              <div onclick="goTo('s11')" style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:rgba(255,184,0,.04);border:1px solid rgba(255,184,0,.12);border-radius:10px;cursor:pointer;">
                 <span style="font-size:18px;">⭐</span>
                 <div style="flex:1;"><div style="font-size:12px;font-weight:700;">First PR</div><div style="font-size:10px;color:var(--td);">105kg bench · Jan 8</div></div>
                 <div style="font-size:10px;color:var(--wa);">Jan 8</div>
@@ -1035,11 +1041,11 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             </div>
           </div>
           <div class="bnav">
-            <div class="bni" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni on" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
+            <div class="bni" onclick="goTo('s4')"><span class="ico">⚡</span><span class="lbl">Today</span></div>
+            <div class="bni" onclick="goTo('s7')"><span class="ico">📊</span><span class="lbl">Progress</span></div>
+            <div class="bni on" onclick="goTo('s10')"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
+            <div class="bni" onclick="goTo('s8')"><span class="ico">👥</span><span class="lbl">Social</span></div>
+            <div class="bni" onclick="goTo('s12')"><span class="ico">⚙️</span><span class="lbl">More</span></div>
           </div>
         </div>
       </div>
@@ -1051,7 +1057,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
         <div style="background:var(--scr);display:flex;flex-direction:column;height:100%;">
           <div class="scroll" style="padding:52px 20px 80px;">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-              <div onclick="goTo(&#39;s10&#39;)" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
+              <div onclick="goTo('s10')" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
               <div class="bc" style="font-size:24px;font-weight:900;">Rewards</div>
             </div>
 
@@ -1108,11 +1114,11 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             </div>
           </div>
           <div class="bnav">
-            <div class="bni" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni on" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
+            <div class="bni" onclick="goTo('s4')"><span class="ico">⚡</span><span class="lbl">Today</span></div>
+            <div class="bni" onclick="goTo('s7')"><span class="ico">📊</span><span class="lbl">Progress</span></div>
+            <div class="bni on" onclick="goTo('s10')"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
+            <div class="bni" onclick="goTo('s8')"><span class="ico">👥</span><span class="lbl">Social</span></div>
+            <div class="bni" onclick="goTo('s12')"><span class="ico">⚙️</span><span class="lbl">More</span></div>
           </div>
         </div>
       </div>
@@ -1202,9 +1208,9 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             <div class="card" style="margin-bottom:10px;">
               <div class="sec-label">Quick nav · demo screens</div>
               <div style="display:flex;flex-direction:column;gap:6px;">
-                <div onclick="goTo(&#39;s13&#39;)" style="padding:9px 12px;background:rgba(255,61,138,.05);border:1px solid rgba(255,61,138,.15);border-radius:9px;font-size:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;"><span>🔔 Notifications panel</span><span style="color:var(--td);">›</span></div>
-                <div onclick="goTo(&#39;s14&#39;)" style="padding:9px 12px;background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.15);border-radius:9px;font-size:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;"><span>😴 Burnout mode</span><span style="color:var(--td);">›</span></div>
-                <div onclick="goTo(&#39;s15&#39;)" style="padding:9px 12px;background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.15);border-radius:9px;font-size:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;"><span>🤒 Sickness mode</span><span style="color:var(--td);">›</span></div>
+                <div onclick="goTo('s13')" style="padding:9px 12px;background:rgba(255,61,138,.05);border:1px solid rgba(255,61,138,.15);border-radius:9px;font-size:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;"><span>🔔 Notifications panel</span><span style="color:var(--td);">›</span></div>
+                <div onclick="goTo('s14')" style="padding:9px 12px;background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.15);border-radius:9px;font-size:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;"><span>😴 Burnout mode</span><span style="color:var(--td);">›</span></div>
+                <div onclick="goTo('s15')" style="padding:9px 12px;background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.15);border-radius:9px;font-size:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;"><span>🤒 Sickness mode</span><span style="color:var(--td);">›</span></div>
               </div>
             </div>
 
@@ -1215,11 +1221,11 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             </div>
           </div>
           <div class="bnav">
-            <div class="bni" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni on" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
+            <div class="bni" onclick="goTo('s4')"><span class="ico">⚡</span><span class="lbl">Today</span></div>
+            <div class="bni" onclick="goTo('s7')"><span class="ico">📊</span><span class="lbl">Progress</span></div>
+            <div class="bni" onclick="goTo('s10')"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
+            <div class="bni" onclick="goTo('s8')"><span class="ico">👥</span><span class="lbl">Social</span></div>
+            <div class="bni on" onclick="goTo('s12')"><span class="ico">⚙️</span><span class="lbl">More</span></div>
           </div>
         </div>
       </div>
@@ -1231,7 +1237,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
         <div style="background:var(--scr);display:flex;flex-direction:column;height:100%;">
           <div class="scroll" style="padding:52px 20px 80px;">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-              <div onclick="goTo(&#39;s4&#39;)" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
+              <div onclick="goTo('s4')" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
               <div class="bc" style="font-size:24px;font-weight:900;">Notifications</div>
               <div style="margin-left:auto;font-size:11px;color:var(--nb);cursor:pointer;">Mark all read</div>
             </div>
@@ -1240,7 +1246,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
 
               <!-- Unread - readiness -->
-              <div style="background:rgba(0,240,200,.05);border:1px solid rgba(0,240,200,.15);border-radius:13px;padding:12px 14px;display:flex;gap:10px;position:relative;overflow:hidden;cursor:pointer;" onclick="goTo(&#39;s4&#39;)">
+              <div style="background:rgba(0,240,200,.05);border:1px solid rgba(0,240,200,.15);border-radius:13px;padding:12px 14px;display:flex;gap:10px;position:relative;overflow:hidden;cursor:pointer;" onclick="goTo('s4')">
                 <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ec);"></div>
                 <div class="a-icon" style="width:34px;height:34px;border-radius:10px;flex-shrink:0;"><span class="a" style="font-size:17px;">A</span></div>
                 <div style="flex:1;">
@@ -1253,7 +1259,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
               </div>
 
               <!-- Streak at risk - unread -->
-              <div style="background:rgba(255,61,138,.05);border:1px solid rgba(255,61,138,.15);border-radius:13px;padding:12px 14px;display:flex;gap:10px;position:relative;overflow:hidden;cursor:pointer;" onclick="goTo(&#39;s10&#39;)">
+              <div style="background:rgba(255,61,138,.05);border:1px solid rgba(255,61,138,.15);border-radius:13px;padding:12px 14px;display:flex;gap:10px;position:relative;overflow:hidden;cursor:pointer;" onclick="goTo('s10')">
                 <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--lm);"></div>
                 <div class="a-icon" style="width:34px;height:34px;border-radius:10px;flex-shrink:0;"><span class="a" style="font-size:17px;">A</span></div>
                 <div style="flex:1;">
@@ -1270,7 +1276,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             <div style="display:flex;flex-direction:column;gap:8px;">
 
               <!-- PR -->
-              <div style="background:var(--pill);border:1px solid var(--brd);border-radius:13px;padding:12px 14px;display:flex;gap:10px;cursor:pointer;" onclick="goTo(&#39;s7&#39;)">
+              <div style="background:var(--pill);border:1px solid var(--brd);border-radius:13px;padding:12px 14px;display:flex;gap:10px;cursor:pointer;" onclick="goTo('s7')">
                 <div class="a-icon" style="width:34px;height:34px;border-radius:10px;flex-shrink:0;opacity:.7;"><span class="a" style="font-size:17px;">A</span></div>
                 <div style="flex:1;">
                   <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
@@ -1282,7 +1288,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
               </div>
 
               <!-- Social -->
-              <div style="background:var(--pill);border:1px solid var(--brd);border-radius:13px;padding:12px 14px;display:flex;gap:10px;cursor:pointer;" onclick="goTo(&#39;s8&#39;)">
+              <div style="background:var(--pill);border:1px solid var(--brd);border-radius:13px;padding:12px 14px;display:flex;gap:10px;cursor:pointer;" onclick="goTo('s8')">
                 <div class="a-icon" style="width:34px;height:34px;border-radius:10px;flex-shrink:0;opacity:.7;"><span class="a" style="font-size:17px;">A</span></div>
                 <div style="flex:1;">
                   <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
@@ -1294,7 +1300,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
               </div>
 
               <!-- Recovery -->
-              <div style="background:var(--pill);border:1px solid var(--brd);border-radius:13px;padding:12px 14px;display:flex;gap:10px;cursor:pointer;" onclick="goTo(&#39;s14&#39;)">
+              <div style="background:var(--pill);border:1px solid var(--brd);border-radius:13px;padding:12px 14px;display:flex;gap:10px;cursor:pointer;" onclick="goTo('s14')">
                 <div class="a-icon" style="width:34px;height:34px;border-radius:10px;flex-shrink:0;opacity:.7;"><span class="a" style="font-size:17px;">A</span></div>
                 <div style="flex:1;">
                   <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
@@ -1307,11 +1313,11 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             </div>
           </div>
           <div class="bnav">
-            <div class="bni" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
+            <div class="bni" onclick="goTo('s4')"><span class="ico">⚡</span><span class="lbl">Today</span></div>
+            <div class="bni" onclick="goTo('s7')"><span class="ico">📊</span><span class="lbl">Progress</span></div>
+            <div class="bni" onclick="goTo('s10')"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
+            <div class="bni" onclick="goTo('s8')"><span class="ico">👥</span><span class="lbl">Social</span></div>
+            <div class="bni" onclick="goTo('s12')"><span class="ico">⚙️</span><span class="lbl">More</span></div>
           </div>
         </div>
       </div>
@@ -1324,7 +1330,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
           <div style="position:absolute;inset:0;background:radial-gradient(ellipse 250px 200px at 50% 35%,rgba(168,85,247,.07),transparent),radial-gradient(ellipse 200px 160px at 20% 70%,rgba(255,61,138,.04),transparent);pointer-events:none;"></div>
           <div class="scroll" style="padding:52px 20px 80px;position:relative;z-index:1;">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-              <div onclick="goTo(&#39;s4&#39;)" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
+              <div onclick="goTo('s4')" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
               <div class="a-icon" style="width:28px;height:28px;border-radius:8px;opacity:.65;"><span class="a" style="font-size:14px;">A</span></div>
               <div class="wordmark" style="font-size:18px;">Avyro<span class="dot">.</span><span class="ai">ai</span></div>
             </div>
@@ -1335,14 +1341,16 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
               <div style="display:flex;align-items:center;gap:14px;">
                 <div style="position:relative;">
                   <svg width="72" height="72">
-                    <circle cx="36" cy="36" r="28" fill="none" stroke="rgba(168,85,247,.12)" stroke-width="6"></circle>
-                    <circle cx="36" cy="36" r="28" fill="none" stroke="url(#bg1)" stroke-width="6" stroke-linecap="round" stroke-dasharray="176" stroke-dashoffset="138" transform="rotate(-90 36 36)"></circle>
+                    <circle cx="36" cy="36" r="28" fill="none" stroke="rgba(168,85,247,.12)" stroke-width="6"/>
+                    <circle cx="36" cy="36" r="28" fill="none" stroke="url(#bg1)" stroke-width="6"
+                      stroke-linecap="round" stroke-dasharray="176" stroke-dashoffset="138"
+                      transform="rotate(-90 36 36)"/>
                     <text x="36" y="41" text-anchor="middle" fill="white" font-family="Barlow Condensed" font-weight="900" font-size="19">28</text>
                     <defs>
-                      <lineargradient id="bg1" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#A855F7"></stop>
-                        <stop offset="100%" stop-color="#FF3D8A"></stop>
-                      </lineargradient>
+                      <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#A855F7"/>
+                        <stop offset="100%" stop-color="#FF3D8A"/>
+                      </linearGradient>
                     </defs>
                   </svg>
                 </div>
@@ -1387,14 +1395,14 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
               <div style="font-size:11px;color:var(--ts);line-height:1.5;">Aim for 8h sleep. HRV will thank you. Program resumes when you're ready.</div>
             </div>
 
-            <div onclick="goTo(&#39;s15&#39;)" style="text-align:center;font-size:12px;color:var(--cp);cursor:pointer;padding:8px;">See sickness mode →</div>
+            <div onclick="goTo('s15')" style="text-align:center;font-size:12px;color:var(--cp);cursor:pointer;padding:8px;">See sickness mode →</div>
           </div>
           <div class="bnav">
-            <div class="bni on" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
+            <div class="bni on" onclick="goTo('s4')"><span class="ico">⚡</span><span class="lbl">Today</span></div>
+            <div class="bni" onclick="goTo('s7')"><span class="ico">📊</span><span class="lbl">Progress</span></div>
+            <div class="bni" onclick="goTo('s10')"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
+            <div class="bni" onclick="goTo('s8')"><span class="ico">👥</span><span class="lbl">Social</span></div>
+            <div class="bni" onclick="goTo('s12')"><span class="ico">⚙️</span><span class="lbl">More</span></div>
           </div>
         </div>
       </div>
@@ -1407,7 +1415,7 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
           <div style="position:absolute;inset:0;background:radial-gradient(ellipse 250px 200px at 50% 35%,rgba(168,85,247,.06),transparent);pointer-events:none;"></div>
           <div class="scroll" style="padding:52px 20px 80px;position:relative;z-index:1;">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-              <div onclick="goTo(&#39;s14&#39;)" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
+              <div onclick="goTo('s14')" style="font-size:20px;color:var(--td);cursor:pointer;">‹</div>
               <div class="a-icon" style="width:28px;height:28px;border-radius:8px;opacity:.6;"><span class="a" style="font-size:14px;">A</span></div>
               <div class="wordmark" style="font-size:18px;">Avyro<span class="dot">.</span><span class="ai">ai</span></div>
               <span class="tag t-cp" style="margin-left:auto;">Sickness mode</span>
@@ -1456,16 +1464,16 @@ body { background:#111827; font-family:'Barlow',sans-serif; color:var(--text);
             </div>
 
             <!-- Resume -->
-            <div onclick="goTo(&#39;s4&#39;)" style="background:var(--pill);border:1px solid var(--brd);border-radius:13px;padding:14px;text-align:center;font-size:13px;font-weight:600;color:var(--ts);cursor:pointer;">
+            <div onclick="goTo('s4')" style="background:var(--pill);border:1px solid var(--brd);border-radius:13px;padding:14px;text-align:center;font-size:13px;font-weight:600;color:var(--ts);cursor:pointer;">
               I'm feeling better → Resume program
             </div>
           </div>
           <div class="bnav">
-            <div class="bni on" onclick="goTo(&#39;s4&#39;)"><span class="ico">⚡</span><span class="lbl">Today</span></div>
-            <div class="bni" onclick="goTo(&#39;s7&#39;)"><span class="ico">📊</span><span class="lbl">Progress</span></div>
-            <div class="bni" onclick="goTo(&#39;s10&#39;)"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
-            <div class="bni" onclick="goTo(&#39;s8&#39;)"><span class="ico">👥</span><span class="lbl">Social</span></div>
-            <div class="bni" onclick="goTo(&#39;s12&#39;)"><span class="ico">⚙️</span><span class="lbl">More</span></div>
+            <div class="bni on" onclick="goTo('s4')"><span class="ico">⚡</span><span class="lbl">Today</span></div>
+            <div class="bni" onclick="goTo('s7')"><span class="ico">📊</span><span class="lbl">Progress</span></div>
+            <div class="bni" onclick="goTo('s10')"><span class="ico">🔥</span><span class="lbl">Streak</span></div>
+            <div class="bni" onclick="goTo('s8')"><span class="ico">👥</span><span class="lbl">Social</span></div>
+            <div class="bni" onclick="goTo('s12')"><span class="ico">⚙️</span><span class="lbl">More</span></div>
           </div>
         </div>
       </div>
@@ -1537,12 +1545,18 @@ function goTo(id, back = false) {
   sb.classList.toggle('light', false);
 }
 
-// Auto-advance loading → splash after 2.5s
-setTimeout(() => { if (current === 's0') goTo('s1'); }, 2500);
+// Auto-advance loading → splash after 3.5s with fade
+setTimeout(() => { 
+  if (current === 's0') {
+    const prev = document.getElementById('s0');
+    prev.style.transition = 'opacity 0.8s ease';
+    prev.style.opacity = '0';
+    setTimeout(() => goTo('s1'), 800);
+  }
+}, 3000);
 
 // Initial screen name
 document.getElementById('screenName').textContent = 'Loading';
 </script>
-
-
-</body></html>
+</body>
+</html>
